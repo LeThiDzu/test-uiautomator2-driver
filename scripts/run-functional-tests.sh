@@ -30,7 +30,7 @@ checkTestPrerequisites() {
 
 checkTestPrerequisites
 echo ======================================
-kvm-ok
+adb devices -l
 echo ======================================
 
 RESULTS_XML=test-results.xml
