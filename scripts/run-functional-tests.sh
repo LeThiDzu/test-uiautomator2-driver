@@ -29,6 +29,9 @@ checkTestPrerequisites() {
 }
 
 checkTestPrerequisites
+echo ======================================
+kvm-ok
+echo ======================================
 
 RESULTS_XML=test-results.xml
 echo "{\"reporterEnabled\": \"spec, xunit\", \"xunitReporterOptions\": {\"output\": \"$RESULTS_XML\"}}" > reporter_config.json
