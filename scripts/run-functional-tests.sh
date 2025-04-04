@@ -29,12 +29,10 @@ checkTestPrerequisites() {
 }
 
 checkTestPrerequisites
-echo ======================================
-adb devices -l
-echo ======================================
-python -V
-echo ======================================
-ls
-echo ======================================
+python -m venv venv
+pip install virtualenv
+source venv/bin/activate
+pip install robotframework
+pip install robotframework-appium
 
 robot ./test/DeviceFarm.robot
