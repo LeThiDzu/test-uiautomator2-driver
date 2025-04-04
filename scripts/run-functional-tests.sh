@@ -34,5 +34,6 @@ pip install virtualenv
 source venv/bin/activate
 pip install robotframework
 pip install --upgrade robotframework-appiumlibrary
+pip install python-dotenv
 
 robot ./test/DeviceFarm.robot
