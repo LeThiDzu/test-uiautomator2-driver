@@ -48,6 +48,9 @@ jobs:
         npm install -g appium
         npm install --no-save mjpeg-consumer
       name: Install dev dependencies
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.13'
     - uses: actions/setup-java@v3
       with:
         distribution: 'temurin'
@@ -109,15 +112,4 @@ jobs:
         emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
         target: ${{ matrix.emuTag }}
         arch: ${{ matrix.arch }}
-    - name: Save logcat output
-      if: ${{ always() }}
-      uses: actions/upload-artifact@master
-      with:
-        name: logcat-api${{ matrix.apiLevel }}
-        path: logcat.log
-    - name: Save server output
-      if: ${{ always() }}
-      uses: actions/upload-artifact@master
-      with:
-        name: appium-api${{ matrix.apiLevel }}
-        path: appium.log
+

@@ -32,5 +32,9 @@ checkTestPrerequisites
 echo ======================================
 adb devices -l
 echo ======================================
+python -V
+echo ======================================
+ls
+echo ======================================
 
 robot ./test/DeviceFarm.robot
