@@ -1,5 +1,5 @@
 *** Settings ***
-Library    ./pythonLib/load_env.py
+Library    ../pythonLib/load_env.py
 Library    AppiumLibrary
 
 *** Variables ***
