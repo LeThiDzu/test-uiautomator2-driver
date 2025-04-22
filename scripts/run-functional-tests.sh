@@ -20,7 +20,7 @@ checkTestPrerequisites() {
         exit 1
     fi
 
-    echo ${APK_LINK}
+    pip list
 
     # Check if android-apidemos is installed
     if [ ! -f "apks/ApiDemos-debug.apk" ]; then
