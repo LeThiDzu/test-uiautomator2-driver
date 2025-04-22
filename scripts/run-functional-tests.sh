@@ -20,8 +20,6 @@ checkTestPrerequisites() {
         exit 1
     fi
 
-    pip list
-
     # Check if android-apidemos is installed
     if [ ! -f "apks/ApiDemos-debug.apk" ]; then
         echo "Error: android-apidemos package not found"
@@ -32,4 +30,5 @@ checkTestPrerequisites() {
 
 checkTestPrerequisites
 source venv/bin/activate
+pip list
 robot ./test/DeviceFarm.robot
