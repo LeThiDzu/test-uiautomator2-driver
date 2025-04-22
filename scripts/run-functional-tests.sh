@@ -20,6 +20,8 @@ checkTestPrerequisites() {
         exit 1
     fi
 
+    echo ${APK_LINK}
+
     # Check if android-apidemos is installed
     if [ ! -f "apks/ApiDemos-debug.apk" ]; then
         echo "Error: android-apidemos package not found"
