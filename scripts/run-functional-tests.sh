@@ -29,4 +29,5 @@ checkTestPrerequisites() {
 }
 
 checkTestPrerequisites
+source venv/bin/activate
 robot ./test/DeviceFarm.robot
