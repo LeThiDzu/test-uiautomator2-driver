@@ -28,8 +28,6 @@ checkTestPrerequisites() {
     fi
 }
 
-checkTestPrerequisites
 source venv/bin/activate
-python -m pip install -r requirements.txt
-pip list
+checkTestPrerequisites
 robot ./test/DeviceFarm.robot
