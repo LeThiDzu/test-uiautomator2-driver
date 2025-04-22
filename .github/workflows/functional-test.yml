@@ -58,8 +58,27 @@ jobs:
         npm install --no-save mjpeg-consumer
       name: Install dev dependencies
     - uses: actions/setup-python@v5
+      id: setup_python
       with:
-        python-version: '3.13'
+        python-version: '3.8.1'
+
+    - uses: actions/cache/restore@v4
+      with:
+        key: venv-${{ runner.os }}-${{ steps.setup_python.outputs.python-version }}-${{ hashFiles('requirements.txt') }}
+        path: venv
+
+    - name: Install Python packages
+      run: |
+        python -m venv venv
+        source venv/bin/activate
+        python -m pip install -r requirements.txt
+
+    - name: Save cached venv
+      uses: actions/cache/save@v4
+      with:
+        key: venv-${{ runner.os }}-${{ steps.setup_python.outputs.python-version }}-${{ hashFiles('requirements.txt') }}
+        path: venv
+
     - uses: actions/setup-java@v3
       with:
         distribution: 'temurin'
