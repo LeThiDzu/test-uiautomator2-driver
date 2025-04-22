@@ -2,6 +2,7 @@
 Library    AppiumLibrary
 Library    ../pythonLib/load_env.py
 Library    ../pythonLib/handle_elements_bounds.py
+Library    ../pythonLib/get_apk_file.py
 Resource    home_page.resource
 Resource    Preference/ChildMenu.resource
 Resource    Preference/PreferenceDependencies.resource
@@ -47,7 +48,8 @@ Element Should Reach The State ${state}
     ...    long-clickable, password, scrollable, selected, displayed
     [Arguments]    ${element_name}    ${locator}
     ${state_status} =    Get Element Attribute    ${locator}    ${state}
-    IF    ${state_status} == ${False}
+    Log To Console    ${state_status}
+    IF    "${state_status}" == "false"
         Fail    ${element_name} not reached the state ${state}
     END
 
