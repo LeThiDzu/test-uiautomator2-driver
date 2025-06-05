@@ -1,28 +1,34 @@
-import base64
 import os
-
-from appium.options.android import UiAutomator2Options
+import subprocess
 from dotenv import load_dotenv
-from appium import webdriver
 
 load_dotenv()
-desired_cap = {
-    "platformName": "Android",
-    "platformVersion": os.environ['PLATFORM_VERSION'],
-    "deviceName": os.environ['DEVICE_NAME'],
-    "appPackage": os.environ['APP_PACKAGE'],
-    "appWaitActivity": os.environ['APP_ACTIVITY'],
-    "app": os.environ['PATH_TO_APK']
-}
-options = UiAutomator2Options().load_capabilities(desired_cap)
-driver = webdriver.Remote("http://localhost:4723", options=options)
 
-def start_test_record():
-    driver.start_recording_screen()
+_recording_process = None
+_other_process = None
 
-def stop_test_record(file_name):
-    video_data = driver.stop_recording_screen()
-    file_path = os.path.join(os.getcwd(), file_name + ".mp4")
-    with open(file_path, "wb") as vd:
-        vd.write(base64.b64decode(video_data))
-    print("Test file path: " + file_path)
+def start_recording(file_name="test_record.mp4"):
+    global _recording_process
+    command = ["adb", "shell", "screenrecord", "/sdcard/" + file_name, "--time-limit", "0"]
+    _recording_process = subprocess.Popen(command, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    print(f"Started screen recording to {file_name}")
+
+def stop_recording(file_name="test_record.mp4"):
+    global _recording_process
+    if _recording_process:
+        _recording_process.terminate()
+        print(f"Stopped screen recording to {file_name}")
+    else:
+        print("No recording found")
+
+def pull_video(file_name="test_record.mp4", output_path=os.getcwd()):
+    global _other_process
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    full_output_path = os.path.join(output_path, file_name)
+    pull_command = ["adb", "pull", "/sdcard/" + file_name, full_output_path]
+    _other_process = subprocess.run(pull_command, check=True)
+
+def remove_video(file_name="test_record.mp4"):
+    global _other_process
+    command = ["adb", "shell", "rm", "/sdcard/" + file_name]
+    _other_process = subprocess.run(command, check=True)

@@ -2,6 +2,7 @@
 Library    AppiumLibrary
 Library    String
 Library    Collections
+Library    OperatingSystem
 Library    ../pythonLib/load_env.py
 Library    ../pythonLib/handle_elements_bounds.py
 Library    ../pythonLib/get_apk_file.py
@@ -16,14 +17,16 @@ Resource    OS/SMSMessaging.resource
 ${global_timeout}    30s
 ${global_retry}    5
 ${test_done}    ${False}
+${record_output}    ${EXECDIR}/TestRecord/
 
 *** Keywords ***
 Open API Demos
     ${env_vars}=    Load Environment Variables
-    Open Application    http://localhost:4723    platformName=${env_vars['PLATFORM_NAME']}    platformVersion=${env_vars['PLATFORM_VERSION']}
+    Log To Console    ${env_vars['PATH_TO_APK']}
+    Open Application    ${env_vars['APPIUM_TEST_SERVER_HOST']}:${env_vars['APPIUM_TEST_SERVER_PORT']}    platformName=${env_vars['PLATFORM_NAME']}    platformVersion=${env_vars['PLATFORM_VERSION']}
     ...                 deviceName=${env_vars['DEVICE_NAME']}     appPackage=${env_vars['APP_PACKAGE']}     appWaitActivity=${env_vars['APP_ACTIVITY']}
     ...                 app=${env_vars['PATH_TO_APK']}    automationName=${env_vars['AUTOMATION_NAME']}
-    ...                 enforceXPath1=${True}    --allow-insecure=adb_shell
+    ...                 enforceXPath1=${True}
     
 Close API Demos
     Close All Applications
@@ -94,20 +97,18 @@ Unselect Checkbox
 
 Start Record Video
     ${video_name} =    Replace String    ${TEST_NAME}    ${SPACE}    _
-    Start Screen Recording    180s
-#    WHILE    ${TEST
-
-
-
-#    Log To Console    Test: ${video_name}
-##    Start Screen Recording    ./${video_name}.mp4
-#    Execute Adb Shell    screenrecord /sdcard/${video_name}.mp4
-#    Execute Script    RECORD_PID=$!
-#    ${TEST_NAME}
+    Start Recording    ${video_name}.mp4
 
 Stop Record Video
     ${video_name} =    Replace String    ${TEST_NAME}    ${SPACE}    _
-    Stop Screen Recording    ./${video_name}
+    Stop Recording    ${video_name}.mp4
+    Log To Console    ${TEST_STATUS}
+    IF    "${TEST_STATUS}" == "FAIL"
+        Pull Video    ${video_name}.mp4    ${record_output}
+        File Should Exist    ${record_output}/${video_name}.mp4
+        Sleep    5s
+    END
+    Remove Video    ${video_name}.mp4
 
 #    Execute Script    kill $RECORD_PID
 #    Execute Adb Shell    adb pull /sdcard/${video_name}.mp4 ./recordings/${video_name}.mp4
