@@ -18,11 +18,12 @@ jobs:
         with:
           webhook: "https://hooks.slack.com/services/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"
           webhook-type: incoming-webhook
-          channel: "C04R7RXBLAH"
-          blocks:
-            - type: "section"
-              text:
-                type: "mrkdwn"
-                text: "*:x: CI/CD & Deployment Failed for CI/CD pipeline for App, API Server (test/preview ENVs)*"
+          payload:
+            channel: "C04R7RXBLAH"
+            blocks:
+              - type: "section"
+                text:
+                  type: "mrkdwn"
+                  text: "*:x: CI/CD & Deployment Failed for CI/CD pipeline for App, API Server (test/preview ENVs)*"
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
