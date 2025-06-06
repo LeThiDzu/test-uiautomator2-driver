@@ -20,10 +20,9 @@ jobs:
           webhook-type: incoming-webhook
           channel: "C04R7RXBLAH"
           blocks:
-            - type: "header"
+            - type: "section"
               text:
-                - type: "plain_text"
-                  text: ":x: CI/CD & Deployment Failed for CI/CD pipeline for App, API Server (test/preview ENVs)"
-                  emoji: true
+                type: "mrkdwn"
+                text: "*:x: CI/CD & Deployment Failed for CI/CD pipeline for App, API Server (test/preview ENVs)*"
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
