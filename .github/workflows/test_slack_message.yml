@@ -18,7 +18,7 @@ jobs:
         with:
           webhook: "https://hooks.slack.com/services/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"
           webhook-type: incoming-webhook
-          payload: channel: "C04R7RXBLAH"
+          channel: "C04R7RXBLAH"
           blocks:
             - type: "header"
               text:
