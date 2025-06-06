@@ -19,14 +19,14 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        - apiLevel: 32
+        - apiLevel: 34
           emuTag: google_apis
           arch: x86_64
-          androidVer: 12
-        - apiLevel: 30
+          androidVer: 14
+        - apiLevel: 35
           emuTag: google_apis
-          arch: x86
-          androidVer: 11
+          arch: x86_64
+          androidVer: 15
 
     env:
       CI: true
@@ -93,7 +93,7 @@ jobs:
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
     - name: AVD cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       id: avd-cache
       with:
         path: |

@@ -7,11 +7,11 @@ Library    ../pythonLib/load_env.py
 Library    ../pythonLib/handle_elements_bounds.py
 Library    ../pythonLib/get_apk_file.py
 Library    ../pythonLib/test_screenRecord.py
-Resource    home_page.resource
-Resource    Preference/ChildMenu.resource
-Resource    Preference/PreferenceDependencies.resource
-Resource    OS/ChildMenu.resource
-Resource    OS/SMSMessaging.resource
+Resource    ./home_page.resource
+Resource    ./Preference/ChildMenu.resource
+Resource    ./Preference/PreferenceDependencies.resource
+Resource    ./OS/ChildMenu.resource
+Resource    ./OS/SMSMessaging.resource
 
 *** Variables ***
 ${global_timeout}    30s

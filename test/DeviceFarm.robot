@@ -26,17 +26,13 @@ Beta 2 - Test send message
     Fail    I want this test fail
 
 Beta 3 - Test record video
-    Start Recording    test_record_beta3.mp4
-
     Log To Console    touchaku
-    Sleep    10s
     Tap On Element Test Keyword    Menu Preference    ${menu_preference}
     Sleep    10s
-    Stop Recording    test_record_beta3.mp4
 
 *** Keywords ***
 Beta Setup
-#    Start Record Video
+    Start Record Video
     Open API Demos
 
 Beta Teardown
