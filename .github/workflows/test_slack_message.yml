@@ -1,0 +1,29 @@
+name: Notify Slack on PR or Manual Trigger
+
+on:
+  pull_request:
+    branches:
+      - master
+    paths-ignore:
+      - 'docs/**'
+      - '*.md'
+  workflow_dispatch:
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Slack Notification
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          webhook: "https://hooks.slack.com/services/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"
+          webhook-type: incoming-webhook
+          payload: channel: "C04R7RXBLAH"
+          blocks:
+            - type: "header"
+              text:
+                - type: "plain_text"
+                  text: ":x: CI/CD & Deployment Failed for CI/CD pipeline for App, API Server (test/preview ENVs)"
+                  emoji: true
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
