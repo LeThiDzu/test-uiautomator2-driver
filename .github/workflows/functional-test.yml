@@ -74,6 +74,7 @@ jobs:
         pip install virtualenv
         source venv/bin/activate
         python -m pip install -r requirements.txt
+        npm install -g allure-commandline --save-dev
 
     - name: Save cached venv
       uses: actions/cache/save@v4
@@ -146,5 +147,18 @@ jobs:
       if: always()
       with:
         name: test_record
-        path: ./
+        path: ./TestRecord/
+
+    - name: Generate allure report
+      if: always()
+      run: |
+        allure generate ./output/allure/ --clean -o ./allure-report/
+
+    - name: Load test report history
+      uses: actions/checkout@v3
+      if: always()
+      continue-on-error: true
+      with:
+        ref: gh-pages
+        path: gh-pages
 

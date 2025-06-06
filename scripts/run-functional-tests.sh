@@ -30,4 +30,4 @@ checkTestPrerequisites() {
 
 source venv/bin/activate
 checkTestPrerequisites
-robot ./test/DeviceFarm.robot
+python -m robot --listener allure_robotframework ./test/DeviceFarm.robot
