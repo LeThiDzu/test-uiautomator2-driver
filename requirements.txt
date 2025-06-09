@@ -1,5 +1,0 @@
-robotframework==7.0
-robotframework-appiumlibrary==2.1.0
-python-dotenv==1.0.1
-gdown==5.2.0
-allure-robotframework==2.14.2

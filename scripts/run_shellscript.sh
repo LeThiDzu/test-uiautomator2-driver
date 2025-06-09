@@ -1,1 +1,0 @@
-echo ${APK_LINK}
