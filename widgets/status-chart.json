@@ -1,1 +1,1 @@
-[]
+[{"uid":"eb5007de1f93f46a","name":"Beta 1 - Test Enable wifi settings","time":{"start":1749439267007,"stop":1749439317279,"duration":50272},"status":"failed","severity":"normal"},{"uid":"866985783ebf3c48","name":"Beta 3 - Test record video","time":{"start":1749439332679,"stop":1749439338328,"duration":5649},"status":"failed","severity":"normal"},{"uid":"31c5d265860255f","name":"Beta 2 - Test send message","time":{"start":1749439317289,"stop":1749439332673,"duration":15384},"status":"failed","severity":"normal"}]
