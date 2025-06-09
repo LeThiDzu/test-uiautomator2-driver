@@ -1,0 +1,896 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.0 (Python 3.8.12 on linux)" generated="2025-06-09T03:39:31.967020" rpa="false" schemaversion="5">
+<suite id="s1" name="DeviceFarm" source="/home/runner/work/test-uiautomator2-driver/test-uiautomator2-driver/test/DeviceFarm.robot">
+<test id="s1-t1" name="Beta 1 - Test Enable wifi settings" line="11">
+<kw name="Beta Setup" type="SETUP">
+<kw name="Start Record Video" owner="commons">
+<kw name="Replace String" owner="String">
+<msg time="2025-06-09T03:39:32.483184" level="INFO">${video_name} = Beta_1_-_Test_Enable_wifi_settings</msg>
+<var>${video_name}</var>
+<arg>${TEST_NAME}</arg>
+<arg>${SPACE}</arg>
+<arg>_</arg>
+<doc>Replaces ``search_for`` in the given ``string`` with ``replace_with``.</doc>
+<status status="PASS" start="2025-06-09T03:39:32.482670" elapsed="0.000583"/>
+</kw>
+<kw name="Start Recording" owner="test_screenRecord">
+<msg time="2025-06-09T03:39:32.512274" level="INFO">Started screen recording to Beta_1_-_Test_Enable_wifi_settings.mp4</msg>
+<arg>${video_name}.mp4</arg>
+<status status="PASS" start="2025-06-09T03:39:32.483969" elapsed="0.028689"/>
+</kw>
+<status status="PASS" start="2025-06-09T03:39:32.480798" elapsed="0.033095"/>
+</kw>
+<kw name="Open API Demos" owner="commons">
+<kw name="Load Environment Variables" owner="load_env">
+<msg time="2025-06-09T03:39:32.516824" level="INFO">${env_vars} = {'SHELL': '/bin/bash', 'SELENIUM_JAR_PATH': '/usr/share/java/selenium-server.jar', 'CONDA': '/usr/share/miniconda', 'GITHUB_WORKSPACE': '/home/runner/work/test-uiautomator2-driver/test-uiautomator2-dr...</msg>
+<var>${env_vars}</var>
+<status status="PASS" start="2025-06-09T03:39:32.515602" elapsed="0.001289"/>
+</kw>
+<kw name="Log To Console" owner="BuiltIn">
+<arg>${env_vars['PATH_TO_APK']}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" start="2025-06-09T03:39:32.517658" elapsed="0.001458"/>
+</kw>
+<kw name="Open Application" owner="AppiumLibrary">
+<arg>${env_vars['APPIUM_TEST_SERVER_HOST']}:${env_vars['APPIUM_TEST_SERVER_PORT']}</arg>
+<arg>platformName=${env_vars['PLATFORM_NAME']}</arg>
+<arg>platformVersion=${env_vars['PLATFORM_VERSION']}</arg>
+<arg>deviceName=${env_vars['DEVICE_NAME']}</arg>
+<arg>appPackage=${env_vars['APP_PACKAGE']}</arg>
+<arg>appWaitActivity=${env_vars['APP_ACTIVITY']}</arg>
+<arg>app=${env_vars['PATH_TO_APK']}</arg>
+<arg>automationName=${env_vars['AUTOMATION_NAME']}</arg>
+<arg>enforceXPath1=${True}</arg>
+<doc>Opens a new application to given Appium server.
+Capabilities of appium server, Android and iOS,
+Please check https://appium.io/docs/en/2.1/cli/args/
+| *Option*            | *Man.* | *Description*     |
+| remote_url          | Yes    | Appium server url |
+| alias               | no     | alias             |
+| strict_ssl          | No     | allows you to send commands to an invalid certificate host like a self-signed one. |</doc>
+<status status="PASS" start="2025-06-09T03:39:32.520081" elapsed="14.980006"/>
+</kw>
+<status status="PASS" start="2025-06-09T03:39:32.514793" elapsed="14.985874"/>
+</kw>
+<status status="PASS" start="2025-06-09T03:39:32.480059" elapsed="15.020990"/>
+</kw>
+<kw name="Tap On Element Test Keyword" owner="commons">
+<kw name="Run Keyword And Return Status" owner="BuiltIn">
+<kw name="Wait Until Element Is Visible" owner="AppiumLibrary">
+<msg time="2025-06-09T03:39:48.185589" level="INFO">xpath criteria: //android.widget.TextView[@content-desc="Preference"]</msg>
+<arg>${locator}</arg>
+<arg>${global_timeout}</arg>
+<doc>Waits until element specified with `locator` is visible.</doc>
+<status status="PASS" start="2025-06-09T03:39:47.502996" elapsed="0.682755"/>
+</kw>
+<msg time="2025-06-09T03:39:48.186571" level="INFO">${is_element_visible} = True</msg>
+<var>${is_element_visible}</var>
+<arg>Wait Until Element Is Visible</arg>
+<arg>${locator}</arg>
+<arg>${global_timeout}</arg>
+<doc>Runs the given keyword with given arguments and returns the status as a Boolean value.</doc>
+<status status="PASS" start="2025-06-09T03:39:47.502604" elapsed="0.684021"/>
+</kw>
+<if>
+<branch type="IF" condition="${is_element_visible} == ${False}">
+<kw name="Fail" owner="BuiltIn">
+<arg>${element_name} not visible after ${global_timeout}</arg>
+<doc>Fails the test with the given message and optionally alters its tags.</doc>
+<status status="NOT RUN" start="2025-06-09T03:39:48.187820" elapsed="0.000097"/>
+</kw>
+<status status="NOT RUN" start="2025-06-09T03:39:48.187228" elapsed="0.001005"/>
+</branch>
+<status status="PASS" start="2025-06-09T03:39:48.187169" elapsed="0.001307"/>
+</if>
+<kw name="Get Element Attribute" owner="AppiumLibrary">
+<msg time="2025-06-09T03:39:48.965333" level="INFO">Element '//android.widget.TextView[@content-desc="Preference"]' attribute 'bounds' value '[0,521][320,569]' </msg>
+<msg time="2025-06-09T03:39:48.965495" level="INFO">xpath criteria: //android.widget.TextView[@content-desc="Preference"]</msg>
+<msg time="2025-06-09T03:39:48.965670" level="INFO">${element_location} = [0,521][320,569]</msg>
+<var>${element_location}</var>
+<arg>${locator}</arg>
+<arg>bounds</arg>
+<doc>Get element attribute using given attribute: name, value,...</doc>
+<status status="PASS" start="2025-06-09T03:39:48.188719" elapsed="0.777018"/>
+</kw>
+<kw name="Re Find All" owner="handle_elements_bounds">
+<msg time="2025-06-09T03:39:48.967151" level="INFO">${matches} = ['0', '521', '320', '569']</msg>
+<var>${matches}</var>
+<arg>${element_location}</arg>
+<doc>Find all occurrences of a pattern in a string using regex.</doc>
+<status status="PASS" start="2025-06-09T03:39:48.966699" elapsed="0.000499"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-06-09T03:39:48.969810" level="INFO">${x_center} = 160</msg>
+<var>${x_center}</var>
+<arg>int((int(${matches[0]}) + int(${matches[2]})) / 2 )</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-06-09T03:39:48.967712" elapsed="0.002152"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-06-09T03:39:48.974365" level="INFO">${y_center} = 545</msg>
+<var>${y_center}</var>
+<arg>int((int(${matches[1]}) + int(${matches[3]})) / 2 )</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-06-09T03:39:48.970514" elapsed="0.003902"/>
+</kw>
+<kw name="Create List" owner="BuiltIn">
+<msg time="2025-06-09T03:39:48.975595" level="INFO">@{position} = [ 160 | 545 ]</msg>
+<var>@{position}</var>
+<arg>${x_center}</arg>
+<arg>${y_center}</arg>
+<doc>Returns a list containing given items.</doc>
+<status status="PASS" start="2025-06-09T03:39:48.975077" elapsed="0.000578"/>
+</kw>
+<kw name="Create List" owner="BuiltIn">
+<msg time="2025-06-09T03:39:48.976642" level="INFO">@{positions} = [ [160, 545] ]</msg>
+<var>@{positions}</var>
+<arg>${position}</arg>
+<doc>Returns a list containing given items.</doc>
+<status status="PASS" start="2025-06-09T03:39:48.976266" elapsed="0.000422"/>
+</kw>
+<kw name="Tap With Positions" owner="AppiumLibrary">
+<arg>1000</arg>
+<arg>@{positions}</arg>
+<doc>Taps on a particular place with up to five fingers, holding for a
+certain time</doc>
+<status status="PASS" start="2025-06-09T03:39:48.977324" elapsed="2.012776"/>
+</kw>
+<arg>Menu Preference</arg>
+<arg>${menu_preference}</arg>
+<status status="PASS" start="2025-06-09T03:39:47.501883" elapsed="3.488749"/>
+</kw>
+<kw name="Tap On Element Test Keyword" owner="commons">
+<kw name="Run Keyword And Return Status" owner="BuiltIn">
+<kw name="Wait Until Element Is Visible" owner="AppiumLibrary">
+<msg time="2025-06-09T03:39:51.639518" level="INFO">xpath criteria: //android.widget.TextView[@content-desc="3. Preference dependencies"]</msg>
+<arg>${locator}</arg>
+<arg>${global_timeout}</arg>
+<doc>Waits until element specified with `locator` is visible.</doc>
+<status status="PASS" start="2025-06-09T03:39:50.992542" elapsed="0.647121"/>
+</kw>
+<msg time="2025-06-09T03:39:51.640447" level="INFO">${is_element_visible} = True</msg>
+<var>${is_element_visible}</var>
+<arg>Wait Until Element Is Visible</arg>
+<arg>${locator}</arg>
+<arg>${global_timeout}</arg>
+<doc>Runs the given keyword with given arguments and returns the status as a Boolean value.</doc>
+<status status="PASS" start="2025-06-09T03:39:50.992182" elapsed="0.648317"/>
+</kw>
+<if>
+<branch type="IF" condition="${is_element_visible} == ${False}">
+<kw name="Fail" owner="BuiltIn">
+<arg>${element_name} not visible after ${global_timeout}</arg>
+<doc>Fails the test with the given message and optionally alters its tags.</doc>
+<status status="NOT RUN" start="2025-06-09T03:39:51.641658" elapsed="0.000098"/>
+</kw>
+<status status="NOT RUN" start="2025-06-09T03:39:51.641100" elapsed="0.000925"/>
+</branch>
+<status status="PASS" start="2025-06-09T03:39:51.641056" elapsed="0.001250"/>
+</if>
+<kw name="Get Element Attribute" owner="AppiumLibrary">
+<msg time="2025-06-09T03:39:51.752314" level="INFO">Element '//android.widget.TextView[@content-desc="3. Preference dependencies"]' attribute 'bounds' value '[0,178][320,226]' </msg>
+<msg time="2025-06-09T03:39:51.752518" level="INFO">xpath criteria: //android.widget.TextView[@content-desc="3. Preference dependencies"]</msg>
+<msg time="2025-06-09T03:39:51.752711" level="INFO">${element_location} = [0,178][320,226]</msg>
+<var>${element_location}</var>
+<arg>${locator}</arg>
+<arg>bounds</arg>
+<doc>Get element attribute using given attribute: name, value,...</doc>
+<status status="PASS" start="2025-06-09T03:39:51.642548" elapsed="0.110229"/>
+</kw>
+<kw name="Re Find All" owner="handle_elements_bounds">
+<msg time="2025-06-09T03:39:51.754499" level="INFO">${matches} = ['0', '178', '320', '226']</msg>
+<var>${matches}</var>
+<arg>${element_location}</arg>
+<doc>Find all occurrences of a pattern in a string using regex.</doc>
+<status status="PASS" start="2025-06-09T03:39:51.753962" elapsed="0.000600"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-06-09T03:39:51.757665" level="INFO">${x_center} = 160</msg>
+<var>${x_center}</var>
+<arg>int((int(${matches[0]}) + int(${matches[2]})) / 2 )</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-06-09T03:39:51.755282" elapsed="0.002496"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-06-09T03:39:51.760713" level="INFO">${y_center} = 202</msg>
+<var>${y_center}</var>
+<arg>int((int(${matches[1]}) + int(${matches[3]})) / 2 )</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-06-09T03:39:51.758475" elapsed="0.002285"/>
+</kw>
+<kw name="Create List" owner="BuiltIn">
+<msg time="2025-06-09T03:39:51.761962" level="INFO">@{position} = [ 160 | 202 ]</msg>
+<var>@{position}</var>
+<arg>${x_center}</arg>
+<arg>${y_center}</arg>
+<doc>Returns a list containing given items.</doc>
+<status status="PASS" start="2025-06-09T03:39:51.761432" elapsed="0.000586"/>
+</kw>
+<kw name="Create List" owner="BuiltIn">
+<msg time="2025-06-09T03:39:51.763173" level="INFO">@{positions} = [ [160, 202] ]</msg>
+<var>@{positions}</var>
+<arg>${position}</arg>
+<doc>Returns a list containing given items.</doc>
+<status status="PASS" start="2025-06-09T03:39:51.762704" elapsed="0.000530"/>
+</kw>
+<kw name="Tap With Positions" owner="AppiumLibrary">
+<arg>1000</arg>
+<arg>@{positions}</arg>
+<doc>Taps on a particular place with up to five fingers, holding for a
+certain time</doc>
+<status status="PASS" start="2025-06-09T03:39:51.763813" elapsed="1.731494"/>
+</kw>
+<arg>Preference dependencies</arg>
+<arg>${preference_dependencies}</arg>
+<status status="PASS" start="2025-06-09T03:39:50.991431" elapsed="2.504350"/>
+</kw>
+<kw name="Select Checkbox" owner="commons">
+<kw name="Element Should Reach The State displayed" owner="commons" source_name="Element Should Reach The State ${state}">
+<kw name="Get Element Attribute" owner="AppiumLibrary">
+<msg time="2025-06-09T03:39:54.045819" level="INFO">Element '//android.widget.LinearLayout[@resource-id="android:id/widget_frame"]//following::android.widget.CheckBox' attribute 'displayed' value 'true' </msg>
+<msg time="2025-06-09T03:39:54.045965" level="INFO">xpath criteria: //android.widget.LinearLayout[@resource-id="android:id/widget_frame"]//following::android.widget.CheckBox</msg>
+<msg time="2025-06-09T03:39:54.046158" level="INFO">${state_status} = true</msg>
+<var>${state_status}</var>
+<arg>${locator}</arg>
+<arg>${state}</arg>
+<doc>Get element attribute using given attribute: name, value,...</doc>
+<status status="PASS" start="2025-06-09T03:39:53.501387" elapsed="0.544828"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2025-06-09T03:39:54.047338" level="INFO">${count} = 0</msg>
+<var>${count}</var>
+<arg>0</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2025-06-09T03:39:54.047010" elapsed="0.000371"/>
+</kw>
+<while condition="&quot;${state_status}&quot; == &quot;false&quot;">
+<iter>
+<if>
+<branch type="IF" condition="&quot;${state_status}&quot; == &quot;true&quot;">
+<break>
+<status status="NOT RUN" start="2025-06-09T03:39:54.048826" elapsed="0.000087"/>
+</break>
+<status status="NOT RUN" start="2025-06-09T03:39:54.048663" elapsed="0.000544"/>
+</branch>
+<branch type="ELSE IF" condition="&quot;${state_status}&quot; == &quot;false&quot; and ${count} == ${retry}">
+<kw name="Fail" owner="BuiltIn">
+<arg>${element_name} not reach the state ${state} after retry ${retry} time(s)</arg>
+<doc>Fails the test with the given message and optionally alters its tags.</doc>
+<status status="NOT RUN" start="2025-06-09T03:39:54.049782" elapsed="0.000093"/>
+</kw>
+<status status="NOT RUN" start="2025-06-09T03:39:54.049470" elapsed="0.000750"/>
+</branch>
+<status status="NOT RUN" start="2025-06-09T03:39:54.048624" elapsed="0.001859"/>
+</if>
+<kw name="Evaluate" owner="BuiltIn">
+<var>${count}</var>
+<arg>${count} + 1</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="NOT RUN" start="2025-06-09T03:39:54.050721" elapsed="0.000097"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<arg>2s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="NOT RUN" start="2025-06-09T03:39:54.051282" elapsed="0.000091"/>
+</kw>
+<status status="NOT RUN" start="2025-06-09T03:39:54.047988" elapsed="0.003604"/>
+</iter>
+<status status="NOT RUN" start="2025-06-09T03:39:54.047983" elapsed="0.003797"/>
+</while>
+<arg>${element_name}</arg>
+<arg>${locator}</arg>
+<doc>Available state list:
+checkable, checked, clickable, enabled, focusable, focused,
+long-clickable, password, scrollable, selected, displayed</doc>
+<status status="PASS" start="2025-06-09T03:39:53.499414" elapsed="0.552614"/>
+</kw>
+<kw name="Get Element Attribute" owner="AppiumLibrary">
+<msg time="2025-06-09T03:39:54.144562" level="INFO">Element '//android.widget.LinearLayout[@resource-id="android:id/widget_frame"]//following::android.widget.CheckBox' attribute 'checked' value 'false' </msg>
+<msg time="2025-06-09T03:39:54.144740" level="INFO">xpath criteria: //android.widget.LinearLayout[@resource-id="android:id/widget_frame"]//following::android.widget.CheckBox</msg>
+<msg time="2025-06-09T03:39:54.144899" level="INFO">${is_checkbox_checked} = false</msg>
+<var>${is_checkbox_checked}</var>
+<arg>${locator}</arg>
+<arg>checked</arg>
+<doc>Get element attribute using given attribute: name, value,...</doc>
+<status status="PASS" start="2025-06-09T03:39:54.052423" elapsed="0.092532"/>
+</kw>
+<if>
+<branch type="IF" condition="&quot;${is_checkbox_checked}&quot; == &quot;false&quot;">
+<kw name="Click Element" owner="AppiumLibrary">
+<msg time="2025-06-09T03:39:54.148651" level="INFO">Clicking element '//android.widget.LinearLayout[@resource-id="android:id/widget_frame"]//following::android.widget.CheckBox'.</msg>
+<msg time="2025-06-09T03:39:55.006274" level="INFO">xpath criteria: //android.widget.LinearLayout[@resource-id="android:id/widget_frame"]//following::android.widget.CheckBox</msg>
+<arg>${locator}</arg>
+<doc>Click element identified by `locator`.</doc>
+<status status="PASS" start="2025-06-09T03:39:54.146422" elapsed="0.860177"/>
+</kw>
+<status status="PASS" start="2025-06-09T03:39:54.145820" elapsed="0.861479"/>
+</branch>
+<status status="PASS" start="2025-06-09T03:39:54.145778" elapsed="0.861802"/>
+</if>
+<arg>Checkbox wifi</arg>
+<arg>${checkBox_wifi}</arg>
+<status status="PASS" start="2025-06-09T03:39:53.498610" elapsed="1.509083"/>
+</kw>
+<kw name="Element Should Reach The State enabled" owner="commons" source_name="Element Should Reach The State ${state}">
+<kw name="Get Element Attribute" owner="AppiumLibrary">
+<msg time="2025-06-09T03:39:55.214082" level="INFO">Element '//android.widget.TextView[@resource-id="android:id/title" and @text="WiFi settings"]' attribute 'enabled' value 'true' </msg>
+<msg time="2025-06-09T03:39:55.214233" level="INFO">xpath criteria: //android.widget.TextView[@resource-id="android:id/title" and @text="WiFi settings"]</msg>
+<msg time="2025-06-09T03:39:55.214340" level="INFO">${state_status} = true</msg>
+<var>${state_status}</var>
+<arg>${locator}</arg>
+<arg>${state}</arg>
+<doc>Get element attribute using given attribute: name, value,...</doc>
+<status status="PASS" start="2025-06-09T03:39:55.009703" elapsed="0.204669"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2025-06-09T03:39:55.215334" level="INFO">${count} = 0</msg>
+<var>${count}</var>
+<arg>0</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2025-06-09T03:39:55.214995" elapsed="0.000388"/>
+</kw>
+<while condition="&quot;${state_status}&quot; == &quot;false&quot;">
+<iter>
+<if>
+<branch type="IF" condition="&quot;${state_status}&quot; == &quot;true&quot;">
+<break>
+<status status="NOT RUN" start="2025-06-09T03:39:55.216291" elapsed="0.000044"/>
+</break>
+<status status="NOT RUN" start="2025-06-09T03:39:55.216201" elapsed="0.000310"/>
+</branch>
+<branch type="ELSE IF" condition="&quot;${state_status}&quot; == &quot;false&quot; and ${count} == ${retry}">
+<kw name="Fail" owner="BuiltIn">
+<arg>${element_name} not reach the state ${state} after retry ${retry} time(s)</arg>
+<doc>Fails the test with the given message and optionally alters its tags.</doc>
+<status status="NOT RUN" start="2025-06-09T03:39:55.216890" elapsed="0.000098"/>
+</kw>
+<status status="NOT RUN" start="2025-06-09T03:39:55.216652" elapsed="0.000633"/>
+</branch>
+<status status="NOT RUN" start="2025-06-09T03:39:55.216177" elapsed="0.001359"/>
+</if>
+<kw name="Evaluate" owner="BuiltIn">
+<var>${count}</var>
+<arg>${count} + 1</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="NOT RUN" start="2025-06-09T03:39:55.217759" elapsed="0.000095"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<arg>2s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="NOT RUN" start="2025-06-09T03:39:55.218332" elapsed="0.000106"/>
+</kw>
+<status status="NOT RUN" start="2025-06-09T03:39:55.215742" elapsed="0.002940"/>
+</iter>
+<status status="NOT RUN" start="2025-06-09T03:39:55.215739" elapsed="0.003120"/>
+</while>
+<arg>Wifi settings</arg>
+<arg>${wifi_settings}</arg>
+<doc>Available state list:
+checkable, checked, clickable, enabled, focusable, focused,
+long-clickable, password, scrollable, selected, displayed</doc>
+<status status="PASS" start="2025-06-09T03:39:55.008625" elapsed="0.210489"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-06-09T03:40:10.219933" level="INFO">Slept 15 seconds.</msg>
+<arg>15s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-06-09T03:39:55.219457" elapsed="15.000740"/>
+</kw>
+<kw name="Fail" owner="BuiltIn">
+<msg time="2025-06-09T03:40:10.221901" level="FAIL">I want this test fail</msg>
+<arg>I want this test fail</arg>
+<doc>Fails the test with the given message and optionally alters its tags.</doc>
+<status status="FAIL" start="2025-06-09T03:40:10.221328" elapsed="0.000750">I want this test fail</status>
+</kw>
+<kw name="Beta Teardown" type="TEARDOWN">
+<kw name="Close API Demos" owner="commons">
+<kw name="Close All Applications" owner="AppiumLibrary">
+<doc>Closes all open applications.</doc>
+<status status="PASS" start="2025-06-09T03:40:10.224155" elapsed="0.648413"/>
+</kw>
+<status status="PASS" start="2025-06-09T03:40:10.223486" elapsed="0.649568"/>
+</kw>
+<kw name="Stop Record Video" owner="commons">
+<kw name="Replace String" owner="String">
+<msg time="2025-06-09T03:40:10.874938" level="INFO">${video_name} = Beta_1_-_Test_Enable_wifi_settings</msg>
+<var>${video_name}</var>
+<arg>${TEST_NAME}</arg>
+<arg>${SPACE}</arg>
+<arg>_</arg>
+<doc>Replaces ``search_for`` in the given ``string`` with ``replace_with``.</doc>
+<status status="PASS" start="2025-06-09T03:40:10.874451" elapsed="0.000546"/>
+</kw>
+<kw name="Stop Recording" owner="test_screenRecord">
+<msg time="2025-06-09T03:40:10.875976" level="INFO">Stopped screen recording to Beta_1_-_Test_Enable_wifi_settings.mp4</msg>
+<arg>${video_name}.mp4</arg>
+<status status="PASS" start="2025-06-09T03:40:10.875654" elapsed="0.000412"/>
+</kw>
+<kw name="Log To Console" owner="BuiltIn">
+<arg>${TEST_STATUS}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" start="2025-06-09T03:40:10.876593" elapsed="0.000358"/>
+</kw>
+<if>
+<branch type="IF" condition="&quot;${TEST_STATUS}&quot; == &quot;FAIL&quot;">
+<kw name="Pull Video" owner="test_screenRecord">
+<arg>${video_name}.mp4</arg>
+<arg>${record_output}</arg>
+<status status="PASS" start="2025-06-09T03:40:10.877730" elapsed="0.025054"/>
+</kw>
+<kw name="File Should Exist" owner="OperatingSystem">
+<msg time="2025-06-09T03:40:10.904997" level="INFO" html="true">File '&lt;a href="file:///home/runner/work/test-uiautomator2-driver/test-uiautomator2-driver/TestRecord/Beta_1_-_Test_Enable_wifi_settings.mp4"&gt;/home/runner/work/test-uiautomator2-driver/test-uiautomator2-driver/TestRecord/Beta_1_-_Test_Enable_wifi_settings.mp4&lt;/a&gt;' exists.</msg>
+<arg>${record_output}/${video_name}.mp4</arg>
+<doc>Fails unless the given ``path`` points to an existing file.</doc>
+<status status="PASS" start="2025-06-09T03:40:10.904285" elapsed="0.000846"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-06-09T03:40:15.907129" level="INFO">Slept 5 seconds.</msg>
+<arg>5s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-06-09T03:40:10.906598" elapsed="5.000723"/>
+</kw>
+<status status="PASS" start="2025-06-09T03:40:10.877285" elapsed="5.030578"/>
+</branch>
+<status status="PASS" start="2025-06-09T03:40:10.877249" elapsed="5.030930"/>
+</if>
+<kw name="Remove Video" owner="test_screenRecord">
+<arg>${video_name}.mp4</arg>
+<status status="PASS" start="2025-06-09T03:40:15.908482" elapsed="0.048904"/>
+</kw>
+<status status="PASS" start="2025-06-09T03:40:10.873715" elapsed="5.084520"/>
+</kw>
+<status status="PASS" start="2025-06-09T03:40:10.222906" elapsed="5.735576"/>
+</kw>
+<status status="FAIL" start="2025-06-09T03:39:32.479020" elapsed="43.479724">I want this test fail</status>
+</test>
+<test id="s1-t2" name="Beta 2 - Test send message" line="20">
+<kw name="Beta Setup" type="SETUP">
+<kw name="Start Record Video" owner="commons">
+<kw name="Replace String" owner="String">
+<msg time="2025-06-09T03:40:15.967584" level="INFO">${video_name} = Beta_2_-_Test_send_message</msg>
+<var>${video_name}</var>
+<arg>${TEST_NAME}</arg>
+<arg>${SPACE}</arg>
+<arg>_</arg>
+<doc>Replaces ``search_for`` in the given ``string`` with ``replace_with``.</doc>
+<status status="PASS" start="2025-06-09T03:40:15.967141" elapsed="0.000495"/>
+</kw>
+<kw name="Start Recording" owner="test_screenRecord">
+<msg time="2025-06-09T03:40:15.986765" level="INFO">Started screen recording to Beta_2_-_Test_send_message.mp4</msg>
+<arg>${video_name}.mp4</arg>
+<status status="PASS" start="2025-06-09T03:40:15.968216" elapsed="0.018908"/>
+</kw>
+<status status="PASS" start="2025-06-09T03:40:15.966646" elapsed="0.021584"/>
+</kw>
+<kw name="Open API Demos" owner="commons">
+<kw name="Load Environment Variables" owner="load_env">
+<msg time="2025-06-09T03:40:15.990397" level="INFO">${env_vars} = {'SHELL': '/bin/bash', 'SELENIUM_JAR_PATH': '/usr/share/java/selenium-server.jar', 'CONDA': '/usr/share/miniconda', 'GITHUB_WORKSPACE': '/home/runner/work/test-uiautomator2-driver/test-uiautomator2-dr...</msg>
+<var>${env_vars}</var>
+<status status="PASS" start="2025-06-09T03:40:15.989651" elapsed="0.000787"/>
+</kw>
+<kw name="Log To Console" owner="BuiltIn">
+<arg>${env_vars['PATH_TO_APK']}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" start="2025-06-09T03:40:15.990854" elapsed="0.000935"/>
+</kw>
+<kw name="Open Application" owner="AppiumLibrary">
+<arg>${env_vars['APPIUM_TEST_SERVER_HOST']}:${env_vars['APPIUM_TEST_SERVER_PORT']}</arg>
+<arg>platformName=${env_vars['PLATFORM_NAME']}</arg>
+<arg>platformVersion=${env_vars['PLATFORM_VERSION']}</arg>
+<arg>deviceName=${env_vars['DEVICE_NAME']}</arg>
+<arg>appPackage=${env_vars['APP_PACKAGE']}</arg>
+<arg>appWaitActivity=${env_vars['APP_ACTIVITY']}</arg>
+<arg>app=${env_vars['PATH_TO_APK']}</arg>
+<arg>automationName=${env_vars['AUTOMATION_NAME']}</arg>
+<arg>enforceXPath1=${True}</arg>
+<doc>Opens a new application to given Appium server.
+Capabilities of appium server, Android and iOS,
+Please check https://appium.io/docs/en/2.1/cli/args/
+| *Option*            | *Man.* | *Description*     |
+| remote_url          | Yes    | Appium server url |
+| alias               | no     | alias             |
+| strict_ssl          | No     | allows you to send commands to an invalid certificate host like a self-signed one. |</doc>
+<status status="PASS" start="2025-06-09T03:40:15.992452" elapsed="6.595372"/>
+</kw>
+<status status="PASS" start="2025-06-09T03:40:15.989084" elapsed="6.599320"/>
+</kw>
+<status status="PASS" start="2025-06-09T03:40:15.966054" elapsed="6.622701"/>
+</kw>
+<kw name="Tap On Element Test Keyword" owner="commons">
+<kw name="Run Keyword And Return Status" owner="BuiltIn">
+<kw name="Wait Until Element Is Visible" owner="AppiumLibrary">
+<msg time="2025-06-09T03:40:23.272060" level="INFO">xpath criteria: //android.widget.TextView[@content-desc="OS"]</msg>
+<arg>${locator}</arg>
+<arg>${global_timeout}</arg>
+<doc>Waits until element specified with `locator` is visible.</doc>
+<status status="PASS" start="2025-06-09T03:40:22.591212" elapsed="0.681007"/>
+</kw>
+<msg time="2025-06-09T03:40:23.273021" level="INFO">${is_element_visible} = True</msg>
+<var>${is_element_visible}</var>
+<arg>Wait Until Element Is Visible</arg>
+<arg>${locator}</arg>
+<arg>${global_timeout}</arg>
+<doc>Runs the given keyword with given arguments and returns the status as a Boolean value.</doc>
+<status status="PASS" start="2025-06-09T03:40:22.590748" elapsed="0.682352"/>
+</kw>
+<if>
+<branch type="IF" condition="${is_element_visible} == ${False}">
+<kw name="Fail" owner="BuiltIn">
+<arg>${element_name} not visible after ${global_timeout}</arg>
+<doc>Fails the test with the given message and optionally alters its tags.</doc>
+<status status="NOT RUN" start="2025-06-09T03:40:23.274235" elapsed="0.000092"/>
+</kw>
+<status status="NOT RUN" start="2025-06-09T03:40:23.273652" elapsed="0.000927"/>
+</branch>
+<status status="PASS" start="2025-06-09T03:40:23.273603" elapsed="0.001246"/>
+</if>
+<kw name="Get Element Attribute" owner="AppiumLibrary">
+<msg time="2025-06-09T03:40:23.356785" level="INFO">Element '//android.widget.TextView[@content-desc="OS"]' attribute 'bounds' value '[0,472][320,520]' </msg>
+<msg time="2025-06-09T03:40:23.356930" level="INFO">xpath criteria: //android.widget.TextView[@content-desc="OS"]</msg>
+<msg time="2025-06-09T03:40:23.357087" level="INFO">${element_location} = [0,472][320,520]</msg>
+<var>${element_location}</var>
+<arg>${locator}</arg>
+<arg>bounds</arg>
+<doc>Get element attribute using given attribute: name, value,...</doc>
+<status status="PASS" start="2025-06-09T03:40:23.275089" elapsed="0.082049"/>
+</kw>
+<kw name="Re Find All" owner="handle_elements_bounds">
+<msg time="2025-06-09T03:40:23.358429" level="INFO">${matches} = ['0', '472', '320', '520']</msg>
+<var>${matches}</var>
+<arg>${element_location}</arg>
+<doc>Find all occurrences of a pattern in a string using regex.</doc>
+<status status="PASS" start="2025-06-09T03:40:23.358000" elapsed="0.000479"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-06-09T03:40:23.361302" level="INFO">${x_center} = 160</msg>
+<var>${x_center}</var>
+<arg>int((int(${matches[0]}) + int(${matches[2]})) / 2 )</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-06-09T03:40:23.359085" elapsed="0.002273"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-06-09T03:40:23.364151" level="INFO">${y_center} = 496</msg>
+<var>${y_center}</var>
+<arg>int((int(${matches[1]}) + int(${matches[3]})) / 2 )</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-06-09T03:40:23.361941" elapsed="0.002266"/>
+</kw>
+<kw name="Create List" owner="BuiltIn">
+<msg time="2025-06-09T03:40:23.365311" level="INFO">@{position} = [ 160 | 496 ]</msg>
+<var>@{position}</var>
+<arg>${x_center}</arg>
+<arg>${y_center}</arg>
+<doc>Returns a list containing given items.</doc>
+<status status="PASS" start="2025-06-09T03:40:23.364820" elapsed="0.000547"/>
+</kw>
+<kw name="Create List" owner="BuiltIn">
+<msg time="2025-06-09T03:40:23.366319" level="INFO">@{positions} = [ [160, 496] ]</msg>
+<var>@{positions}</var>
+<arg>${position}</arg>
+<doc>Returns a list containing given items.</doc>
+<status status="PASS" start="2025-06-09T03:40:23.365937" elapsed="0.000434"/>
+</kw>
+<kw name="Tap With Positions" owner="AppiumLibrary">
+<arg>1000</arg>
+<arg>@{positions}</arg>
+<doc>Taps on a particular place with up to five fingers, holding for a
+certain time</doc>
+<status status="PASS" start="2025-06-09T03:40:23.366944" elapsed="1.627334"/>
+</kw>
+<arg>Menu OS</arg>
+<arg>${menu_os}</arg>
+<status status="PASS" start="2025-06-09T03:40:22.589620" elapsed="2.405189"/>
+</kw>
+<kw name="Tap On Element Test Keyword" owner="commons">
+<msg time="2025-06-09T03:40:24.998294" level="FAIL">Variable '${sms_messaging}' not found.</msg>
+<arg>SMS Messaging</arg>
+<arg>${sms_messaging}</arg>
+<status status="FAIL" start="2025-06-09T03:40:24.995603" elapsed="0.002786">Variable '${sms_messaging}' not found.</status>
+</kw>
+<kw name="Select Checkbox" owner="commons">
+<arg>Enable SMS broadcast receiver</arg>
+<arg>${checkBox_enable_sms_broadcast_receiver}</arg>
+<status status="NOT RUN" start="2025-06-09T03:40:25.000222" elapsed="0.000112"/>
+</kw>
+<kw name="Input Text On Element" owner="commons">
+<arg>Text field Recipient</arg>
+<arg>${txt_recipient}</arg>
+<arg>Test ABC def GhY</arg>
+<status status="NOT RUN" start="2025-06-09T03:40:25.000761" elapsed="0.000082"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<arg>15s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="NOT RUN" start="2025-06-09T03:40:25.001910" elapsed="0.000092"/>
+</kw>
+<kw name="Fail" owner="BuiltIn">
+<arg>I want this test fail</arg>
+<doc>Fails the test with the given message and optionally alters its tags.</doc>
+<status status="NOT RUN" start="2025-06-09T03:40:25.002372" elapsed="0.000070"/>
+</kw>
+<kw name="Beta Teardown" type="TEARDOWN">
+<kw name="Close API Demos" owner="commons">
+<kw name="Close All Applications" owner="AppiumLibrary">
+<doc>Closes all open applications.</doc>
+<status status="PASS" start="2025-06-09T03:40:25.003703" elapsed="0.500188"/>
+</kw>
+<status status="PASS" start="2025-06-09T03:40:25.003313" elapsed="0.501022"/>
+</kw>
+<kw name="Stop Record Video" owner="commons">
+<kw name="Replace String" owner="String">
+<msg time="2025-06-09T03:40:25.505929" level="INFO">${video_name} = Beta_2_-_Test_send_message</msg>
+<var>${video_name}</var>
+<arg>${TEST_NAME}</arg>
+<arg>${SPACE}</arg>
+<arg>_</arg>
+<doc>Replaces ``search_for`` in the given ``string`` with ``replace_with``.</doc>
+<status status="PASS" start="2025-06-09T03:40:25.505473" elapsed="0.000512"/>
+</kw>
+<kw name="Stop Recording" owner="test_screenRecord">
+<msg time="2025-06-09T03:40:25.507121" level="INFO">Stopped screen recording to Beta_2_-_Test_send_message.mp4</msg>
+<arg>${video_name}.mp4</arg>
+<status status="PASS" start="2025-06-09T03:40:25.506829" elapsed="0.000349"/>
+</kw>
+<kw name="Log To Console" owner="BuiltIn">
+<arg>${TEST_STATUS}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" start="2025-06-09T03:40:25.507719" elapsed="0.000307"/>
+</kw>
+<if>
+<branch type="IF" condition="&quot;${TEST_STATUS}&quot; == &quot;FAIL&quot;">
+<kw name="Pull Video" owner="test_screenRecord">
+<arg>${video_name}.mp4</arg>
+<arg>${record_output}</arg>
+<status status="PASS" start="2025-06-09T03:40:25.508793" elapsed="0.053329"/>
+</kw>
+<kw name="File Should Exist" owner="OperatingSystem">
+<msg time="2025-06-09T03:40:25.564009" level="INFO" html="true">File '&lt;a href="file:///home/runner/work/test-uiautomator2-driver/test-uiautomator2-driver/TestRecord/Beta_2_-_Test_send_message.mp4"&gt;/home/runner/work/test-uiautomator2-driver/test-uiautomator2-driver/TestRecord/Beta_2_-_Test_send_message.mp4&lt;/a&gt;' exists.</msg>
+<arg>${record_output}/${video_name}.mp4</arg>
+<doc>Fails unless the given ``path`` points to an existing file.</doc>
+<status status="PASS" start="2025-06-09T03:40:25.563358" elapsed="0.000786"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-06-09T03:40:30.565315" level="INFO">Slept 5 seconds.</msg>
+<arg>5s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-06-09T03:40:25.564820" elapsed="5.000731"/>
+</kw>
+<status status="PASS" start="2025-06-09T03:40:25.508397" elapsed="5.057866"/>
+</branch>
+<status status="PASS" start="2025-06-09T03:40:25.508356" elapsed="5.058149"/>
+</if>
+<kw name="Remove Video" owner="test_screenRecord">
+<arg>${video_name}.mp4</arg>
+<status status="PASS" start="2025-06-09T03:40:30.566740" elapsed="0.036442"/>
+</kw>
+<status status="PASS" start="2025-06-09T03:40:25.504850" elapsed="5.099492"/>
+</kw>
+<status status="PASS" start="2025-06-09T03:40:25.002868" elapsed="5.601866"/>
+</kw>
+<status status="FAIL" start="2025-06-09T03:40:15.965017" elapsed="14.640136">Variable '${sms_messaging}' not found.</status>
+</test>
+<test id="s1-t3" name="Beta 3 - Test record video" line="28">
+<kw name="Beta Setup" type="SETUP">
+<kw name="Start Record Video" owner="commons">
+<kw name="Replace String" owner="String">
+<msg time="2025-06-09T03:40:30.615935" level="INFO">${video_name} = Beta_3_-_Test_record_video</msg>
+<var>${video_name}</var>
+<arg>${TEST_NAME}</arg>
+<arg>${SPACE}</arg>
+<arg>_</arg>
+<doc>Replaces ``search_for`` in the given ``string`` with ``replace_with``.</doc>
+<status status="PASS" start="2025-06-09T03:40:30.615618" elapsed="0.000353"/>
+</kw>
+<kw name="Start Recording" owner="test_screenRecord">
+<msg time="2025-06-09T03:40:30.638949" level="INFO">Started screen recording to Beta_3_-_Test_record_video.mp4</msg>
+<arg>${video_name}.mp4</arg>
+<status status="PASS" start="2025-06-09T03:40:30.616414" elapsed="0.022894"/>
+</kw>
+<status status="PASS" start="2025-06-09T03:40:30.615238" elapsed="0.025267"/>
+</kw>
+<kw name="Open API Demos" owner="commons">
+<kw name="Load Environment Variables" owner="load_env">
+<msg time="2025-06-09T03:40:30.642693" level="INFO">${env_vars} = {'SHELL': '/bin/bash', 'SELENIUM_JAR_PATH': '/usr/share/java/selenium-server.jar', 'CONDA': '/usr/share/miniconda', 'GITHUB_WORKSPACE': '/home/runner/work/test-uiautomator2-driver/test-uiautomator2-dr...</msg>
+<var>${env_vars}</var>
+<status status="PASS" start="2025-06-09T03:40:30.641957" elapsed="0.000778"/>
+</kw>
+<kw name="Log To Console" owner="BuiltIn">
+<arg>${env_vars['PATH_TO_APK']}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" start="2025-06-09T03:40:30.643212" elapsed="0.000926"/>
+</kw>
+<kw name="Open Application" owner="AppiumLibrary">
+<arg>${env_vars['APPIUM_TEST_SERVER_HOST']}:${env_vars['APPIUM_TEST_SERVER_PORT']}</arg>
+<arg>platformName=${env_vars['PLATFORM_NAME']}</arg>
+<arg>platformVersion=${env_vars['PLATFORM_VERSION']}</arg>
+<arg>deviceName=${env_vars['DEVICE_NAME']}</arg>
+<arg>appPackage=${env_vars['APP_PACKAGE']}</arg>
+<arg>appWaitActivity=${env_vars['APP_ACTIVITY']}</arg>
+<arg>app=${env_vars['PATH_TO_APK']}</arg>
+<arg>automationName=${env_vars['AUTOMATION_NAME']}</arg>
+<arg>enforceXPath1=${True}</arg>
+<doc>Opens a new application to given Appium server.
+Capabilities of appium server, Android and iOS,
+Please check https://appium.io/docs/en/2.1/cli/args/
+| *Option*            | *Man.* | *Description*     |
+| remote_url          | Yes    | Appium server url |
+| alias               | no     | alias             |
+| strict_ssl          | No     | allows you to send commands to an invalid certificate host like a self-signed one. |</doc>
+<status status="PASS" start="2025-06-09T03:40:30.644587" elapsed="4.737166"/>
+</kw>
+<status status="PASS" start="2025-06-09T03:40:30.641372" elapsed="4.741001"/>
+</kw>
+<status status="PASS" start="2025-06-09T03:40:30.614741" elapsed="4.767977"/>
+</kw>
+<kw name="Log To Console" owner="BuiltIn">
+<arg>touchaku</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" start="2025-06-09T03:40:35.383373" elapsed="0.000404"/>
+</kw>
+<kw name="Tap On Element Test Keyword" owner="commons">
+<kw name="Run Keyword And Return Status" owner="BuiltIn">
+<kw name="Wait Until Element Is Visible" owner="AppiumLibrary">
+<msg time="2025-06-09T03:40:35.955206" level="INFO">xpath criteria: //android.widget.TextView[@content-desc="Preference"]</msg>
+<arg>${locator}</arg>
+<arg>${global_timeout}</arg>
+<doc>Waits until element specified with `locator` is visible.</doc>
+<status status="PASS" start="2025-06-09T03:40:35.385871" elapsed="0.569489"/>
+</kw>
+<msg time="2025-06-09T03:40:35.956210" level="INFO">${is_element_visible} = True</msg>
+<var>${is_element_visible}</var>
+<arg>Wait Until Element Is Visible</arg>
+<arg>${locator}</arg>
+<arg>${global_timeout}</arg>
+<doc>Runs the given keyword with given arguments and returns the status as a Boolean value.</doc>
+<status status="PASS" start="2025-06-09T03:40:35.385448" elapsed="0.570825"/>
+</kw>
+<if>
+<branch type="IF" condition="${is_element_visible} == ${False}">
+<kw name="Fail" owner="BuiltIn">
+<arg>${element_name} not visible after ${global_timeout}</arg>
+<doc>Fails the test with the given message and optionally alters its tags.</doc>
+<status status="NOT RUN" start="2025-06-09T03:40:35.957534" elapsed="0.000106"/>
+</kw>
+<status status="NOT RUN" start="2025-06-09T03:40:35.956871" elapsed="0.001057"/>
+</branch>
+<status status="PASS" start="2025-06-09T03:40:35.956811" elapsed="0.001409"/>
+</if>
+<kw name="Get Element Attribute" owner="AppiumLibrary">
+<msg time="2025-06-09T03:40:36.003524" level="INFO">Element '//android.widget.TextView[@content-desc="Preference"]' attribute 'bounds' value '[0,521][320,569]' </msg>
+<msg time="2025-06-09T03:40:36.003641" level="INFO">xpath criteria: //android.widget.TextView[@content-desc="Preference"]</msg>
+<msg time="2025-06-09T03:40:36.003746" level="INFO">${element_location} = [0,521][320,569]</msg>
+<var>${element_location}</var>
+<arg>${locator}</arg>
+<arg>bounds</arg>
+<doc>Get element attribute using given attribute: name, value,...</doc>
+<status status="PASS" start="2025-06-09T03:40:35.958469" elapsed="0.045310"/>
+</kw>
+<kw name="Re Find All" owner="handle_elements_bounds">
+<msg time="2025-06-09T03:40:36.004740" level="INFO">${matches} = ['0', '521', '320', '569']</msg>
+<var>${matches}</var>
+<arg>${element_location}</arg>
+<doc>Find all occurrences of a pattern in a string using regex.</doc>
+<status status="PASS" start="2025-06-09T03:40:36.004415" elapsed="0.000360"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-06-09T03:40:36.006635" level="INFO">${x_center} = 160</msg>
+<var>${x_center}</var>
+<arg>int((int(${matches[0]}) + int(${matches[2]})) / 2 )</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-06-09T03:40:36.005212" elapsed="0.001458"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-06-09T03:40:36.008572" level="INFO">${y_center} = 545</msg>
+<var>${y_center}</var>
+<arg>int((int(${matches[1]}) + int(${matches[3]})) / 2 )</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-06-09T03:40:36.007083" elapsed="0.001522"/>
+</kw>
+<kw name="Create List" owner="BuiltIn">
+<msg time="2025-06-09T03:40:36.009276" level="INFO">@{position} = [ 160 | 545 ]</msg>
+<var>@{position}</var>
+<arg>${x_center}</arg>
+<arg>${y_center}</arg>
+<doc>Returns a list containing given items.</doc>
+<status status="PASS" start="2025-06-09T03:40:36.008987" elapsed="0.000320"/>
+</kw>
+<kw name="Create List" owner="BuiltIn">
+<msg time="2025-06-09T03:40:36.009903" level="INFO">@{positions} = [ [160, 545] ]</msg>
+<var>@{positions}</var>
+<arg>${position}</arg>
+<doc>Returns a list containing given items.</doc>
+<status status="PASS" start="2025-06-09T03:40:36.009678" elapsed="0.000292"/>
+</kw>
+<kw name="Tap With Positions" owner="AppiumLibrary">
+<arg>1000</arg>
+<arg>@{positions}</arg>
+<doc>Taps on a particular place with up to five fingers, holding for a
+certain time</doc>
+<status status="PASS" start="2025-06-09T03:40:36.010367" elapsed="1.447378"/>
+</kw>
+<arg>Menu Preference</arg>
+<arg>${menu_preference}</arg>
+<status status="PASS" start="2025-06-09T03:40:35.384550" elapsed="2.073608"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-06-09T03:40:47.458951" level="INFO">Slept 10 seconds.</msg>
+<arg>10s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-06-09T03:40:37.458551" elapsed="10.000578"/>
+</kw>
+<kw name="Beta Teardown" type="TEARDOWN">
+<kw name="Close API Demos" owner="commons">
+<kw name="Close All Applications" owner="AppiumLibrary">
+<doc>Closes all open applications.</doc>
+<status status="PASS" start="2025-06-09T03:40:47.460837" elapsed="0.459982"/>
+</kw>
+<status status="PASS" start="2025-06-09T03:40:47.460469" elapsed="0.460856"/>
+</kw>
+<kw name="Stop Record Video" owner="commons">
+<kw name="Replace String" owner="String">
+<msg time="2025-06-09T03:40:47.923260" level="INFO">${video_name} = Beta_3_-_Test_record_video</msg>
+<var>${video_name}</var>
+<arg>${TEST_NAME}</arg>
+<arg>${SPACE}</arg>
+<arg>_</arg>
+<doc>Replaces ``search_for`` in the given ``string`` with ``replace_with``.</doc>
+<status status="PASS" start="2025-06-09T03:40:47.922773" elapsed="0.000542"/>
+</kw>
+<kw name="Stop Recording" owner="test_screenRecord">
+<msg time="2025-06-09T03:40:47.924344" level="INFO">Stopped screen recording to Beta_3_-_Test_record_video.mp4</msg>
+<arg>${video_name}.mp4</arg>
+<status status="PASS" start="2025-06-09T03:40:47.923962" elapsed="0.000459"/>
+</kw>
+<kw name="Log To Console" owner="BuiltIn">
+<arg>${TEST_STATUS}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" start="2025-06-09T03:40:47.925001" elapsed="0.000432"/>
+</kw>
+<if>
+<branch type="IF" condition="&quot;${TEST_STATUS}&quot; == &quot;FAIL&quot;">
+<kw name="Pull Video" owner="test_screenRecord">
+<arg>${video_name}.mp4</arg>
+<arg>${record_output}</arg>
+<status status="NOT RUN" start="2025-06-09T03:40:47.926176" elapsed="0.000086"/>
+</kw>
+<kw name="File Should Exist" owner="OperatingSystem">
+<arg>${record_output}/${video_name}.mp4</arg>
+<doc>Fails unless the given ``path`` points to an existing file.</doc>
+<status status="NOT RUN" start="2025-06-09T03:40:47.926667" elapsed="0.000080"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<arg>5s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="NOT RUN" start="2025-06-09T03:40:47.927177" elapsed="0.000087"/>
+</kw>
+<status status="NOT RUN" start="2025-06-09T03:40:47.925771" elapsed="0.001718"/>
+</branch>
+<status status="PASS" start="2025-06-09T03:40:47.925735" elapsed="0.002071"/>
+</if>
+<kw name="Remove Video" owner="test_screenRecord">
+<arg>${video_name}.mp4</arg>
+<status status="PASS" start="2025-06-09T03:40:47.928015" elapsed="0.049847"/>
+</kw>
+<status status="PASS" start="2025-06-09T03:40:47.921969" elapsed="0.057007"/>
+</kw>
+<status status="PASS" start="2025-06-09T03:40:47.459961" elapsed="0.519417"/>
+</kw>
+<status status="PASS" start="2025-06-09T03:40:30.613836" elapsed="17.365917"/>
+</test>
+<status status="FAIL" start="2025-06-09T03:39:32.024068" elapsed="75.965435"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="2" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="1" fail="2" skip="0" id="s1" name="DeviceFarm">DeviceFarm</stat>
+</suite>
+</statistics>
+<errors>
+<msg time="2025-06-09T03:39:32.477172" level="ERROR">Error in file '/home/runner/work/test-uiautomator2-driver/test-uiautomator2-driver/pages/commons.resource' on line 13: Resource file 'OS/ChildMenu.resource' does not exist.</msg>
+<msg time="2025-06-09T03:39:32.477513" level="ERROR">Error in file '/home/runner/work/test-uiautomator2-driver/test-uiautomator2-driver/pages/commons.resource' on line 14: Resource file 'OS/SMSMessaging.resource' does not exist.</msg>
+</errors>
+</robot>
