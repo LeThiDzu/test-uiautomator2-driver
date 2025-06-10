@@ -147,12 +147,14 @@ jobs:
       if: always()
       with:
         name: test_record
-        path: ./TestRecord/
+        path: ./TestRecord-${{ matrix.androidVer }}/
 
     - name: Generate allure report
       if: always()
       run: |
         allure generate ./output/allure/ --clean -o ./allure-report/
+        sed -i 's|href="|href="./|g' ./allure-report/index.html
+        sed -i 's|src="|src="./|g' ./allure-report/index.html
 
     - name: Push report
       if: always()
