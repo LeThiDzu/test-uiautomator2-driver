@@ -1,0 +1,4 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","43242","Beta 1 - Test Enable wifi settings","","Tue Jun 10 02:36:26 UTC 2025","failed","Tue Jun 10 02:37:09 UTC 2025","","DeviceFarm","",""
+"","17012","Beta 3 - Test record video","","Tue Jun 10 02:37:47 UTC 2025","passed","Tue Jun 10 02:38:04 UTC 2025","","DeviceFarm","",""
+"","37797","Beta 2 - Test send message","","Tue Jun 10 02:37:09 UTC 2025","failed","Tue Jun 10 02:37:47 UTC 2025","","DeviceFarm","",""
