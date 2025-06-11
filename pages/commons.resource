@@ -112,7 +112,6 @@ Stop Record Video
     Remove Video    ${video_name}.mp4
 
 Allure - Add Screen Record
-    [Arguments]    ${video_name}
     ${video_name} =    Replace String    ${TEST_NAME}    ${SPACE}    _
     AllureLibrary.Attach File    ${record_output}/${video_name}.mp4
     
