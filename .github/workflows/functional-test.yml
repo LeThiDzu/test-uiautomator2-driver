@@ -156,11 +156,20 @@ jobs:
         sed -i 's|href="|href="./|g' ./allure-report/index.html
         sed -i 's|src="|src="./|g' ./allure-report/index.html
 
-    - name: Push report
+    - name: Deploy Allure report to gh-pages
       if: always()
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_branch: gh-pages
-        publish_dir: ./allure-report/
-        destination_dir: ${{ matrix.androidVer }}
+      run: |
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git config --global user.name "github-actions[bot]"
+
+        git clone --depth=1 --branch gh-pages https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} gh-pages
+
+        rm -rf gh-pages/${{ matrix.androidVer }}
+        mkdir -p gh-pages/${{ matrix.androidVer }}
+        cp -r ./allure-report/* gh-pages/${{ matrix.androidVer }}/
+
+        cd gh-pages
+        touch .nojekyll
+        git add .
+        git commit -m "Update report for Android ${{ matrix.androidVer }}"
+        git push origin gh-pages
