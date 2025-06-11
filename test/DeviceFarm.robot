@@ -2,6 +2,7 @@
 Resource    ../pages/commons.resource
 Test Setup    Beta Setup
 Test Teardown    Beta Teardown
+Library    ../pythonLib/load_env.py
 
 *** Variables ***
 ${saveVideo_path_in_device}
@@ -28,6 +29,18 @@ Beta 2 - Test send message
 Beta 3 - Test record video
     Log To Console    touchaku
     Tap On Element Test Keyword    Menu Preference    ${menu_preference}
+    Sleep    10s
+
+Beta 4 - This test only available for android 14
+    ${env_vars}=    Load Environment Variables
+    Skip If    ${env_vars['PLATFORM_VERSION']} != 14
+    Log To Console    This test only available for android 14
+    Sleep    10s
+
+Beta 5 - This test only available for android 15
+    ${env_vars}=    Load Environment Variables
+    Skip If    ${env_vars['PLATFORM_VERSION']} != 15
+    Log To Console    This test only available for android 15
     Sleep    10s
 
 *** Keywords ***
