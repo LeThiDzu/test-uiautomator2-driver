@@ -173,3 +173,38 @@ jobs:
         git add .
         git commit -m "Update report for Android ${{ matrix.androidVer }}"
         git push origin gh-pages
+
+  update-index:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout gh-pages branch
+        uses: actions/checkout@v3
+        with:
+          ref: gh-pages
+
+      - name: Generate index.html
+        run: |
+          echo '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Allure Reports</title><style>
+          body { font-family: sans-serif; padding: 2rem; background: #f9f9f9; }
+          h1 { text-align: center; }
+          ul { max-width: 600px; margin: 2rem auto; padding: 0; list-style: none; }
+          li { background: white; margin: 0.5rem 0; padding: 1rem; border-radius: 8px; }
+          a { text-decoration: none; color: #2563eb; font-weight: bold; }
+          </style></head><body><h1>Allure Reports</h1><ul>' > index.html
+          
+          for d in $(find . -mindepth 1 -maxdepth 1 -type d); do
+            name=$(basename "$d")
+            if [ -f "$d/index.html" ]; then
+              echo "<li><a href=\"$name/\">Android $name</a></li>" >> index.html
+            fi
+          done
+          
+          echo '</ul></body></html>' >> index.html
+
+      - name: Push updated index.html
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: .
