@@ -215,7 +215,7 @@ jobs:
 
   send-slack-message:
     if: ${{ always() }}
-    needs: test
+    needs: update-index
     runs-on: ubuntu-latest
     steps:
       - name: Send Slack message
