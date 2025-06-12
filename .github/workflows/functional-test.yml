@@ -175,6 +175,7 @@ jobs:
         git push origin gh-pages
 
   update-index:
+    if: ${{ always() }}
     needs: test
     runs-on: ubuntu-latest
     steps:
