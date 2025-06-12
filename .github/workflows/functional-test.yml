@@ -179,11 +179,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout gh-pages branch
+        if: always()
         uses: actions/checkout@v3
         with:
           ref: gh-pages
 
       - name: Generate index.html
+        if: always()
         run: |
           echo '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Allure Reports</title><style>
           body { font-family: sans-serif; padding: 2rem; background: #f9f9f9; }
@@ -203,6 +205,7 @@ jobs:
           echo '</ul></body></html>' >> index.html
 
       - name: Push updated index.html
+        if: always()
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
