@@ -156,6 +156,12 @@ jobs:
         sed -i 's|href="|href="./|g' ./allure-report/index.html
         sed -i 's|src="|src="./|g' ./allure-report/index.html
 
+    - name: Move Test Videos To Report
+      if: always()
+      run: |
+        mkdir -p ./allure-report/Videos/
+        cp -r ./TestRecord-${{ matrix.androidVer }}/* ./allure-report/Videos/
+
     - name: Deploy Allure report to gh-pages
       if: always()
       run: |
