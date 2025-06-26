@@ -160,7 +160,7 @@ jobs:
       if: always()
       run: |
         mkdir -p ./allure-report/Videos/
-        cp -r ./TestRecord-${{ matrix.androidVer }}/* ./allure-report/Videos/
+        cp -r ./TestRecord/* ./allure-report/Videos/
 
     - name: Deploy Allure report to gh-pages
       if: always()
