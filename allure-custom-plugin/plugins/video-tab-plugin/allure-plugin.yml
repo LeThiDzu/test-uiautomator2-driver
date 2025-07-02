@@ -1,0 +1,6 @@
+id: video-tab
+name: Video Tab Plugin
+jsFiles:
+  - plugin.js
+cssFiles:
+  - styles.css

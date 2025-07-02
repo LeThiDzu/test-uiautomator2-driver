@@ -1,0 +1,7 @@
+id: test-custom
+name: Test custom plugin
+description: Just test custom plugin
+cssFiles:
+  - styles.css
+jsFiles:
+  - index.js

@@ -1,0 +1,12 @@
+<div class="pane__section">
+  <h2>Test Videos</h2>
+  <div ng-repeat="test in testVideos">
+    <h4>{{test.name}}</h4>
+    <video width="640" height="360" controls ng-if="test.videoUrl">
+      <source ng-src="{{trustSrc(test.videoUrl)}}" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <p ng-if="!test.videoUrl">No video available.</p>
+    <hr>
+  </div>
+</div>
