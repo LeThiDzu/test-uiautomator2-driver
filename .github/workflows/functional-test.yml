@@ -87,7 +87,7 @@ jobs:
 
     - name: Install Allure custom plugins
       run: |
-        sudo mv /test-allure/allure-custom-plugin/* /opt/allure/plugins
+        sudo mv ${{ github.workspace }}/allure-custom-plugin/* /opt/allure/plugins
 
     - name: Save cached venv
       uses: actions/cache/save@v4
