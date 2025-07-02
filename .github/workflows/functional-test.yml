@@ -81,8 +81,8 @@ jobs:
       run: |
         curl -L -o allure.zip https://github.com/allure-framework/allure2/releases/download/${{ env.ALLURE_VERSION }}/allure-${{ env.ALLURE_VERSION }}.zip
         unzip allure.zip -d /opt/
-        mv /opt/allure-${{ env.ALLURE_VERSION }} /opt/allure
-        ln -s /opt/allure/bin/allure /usr/bin/allure
+        sudo mv /opt/allure-${{ env.ALLURE_VERSION }} /opt/allure
+        sudo ln -s /opt/allure/bin/allure /usr/bin/allure
         rm allure.zip
 
     - name: Check Allure version
