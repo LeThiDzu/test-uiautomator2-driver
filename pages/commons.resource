@@ -114,7 +114,7 @@ Stop Record Video
 Allure - Add Screen Record
     IF    "${TEST_STATUS}" == "FAIL"
         ${video_name} =    Replace String    ${TEST_NAME}    ${SPACE}    _
-        AllureLibrary.Attach File    ${record_output}/${video_name}.mp4
+        AllureLibrary.Attach File    ${record_output}/${video_name}.mp4    attachment_type=MP4
     END
 
 #    Execute Script    kill $RECORD_PID

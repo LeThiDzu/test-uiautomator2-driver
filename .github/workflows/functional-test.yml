@@ -76,162 +76,167 @@ jobs:
         python -m pip install -r requirements.txt
         npm install -g allure-commandline --save-dev
 
-    - name: Save cached venv
-      uses: actions/cache/save@v4
-      with:
-        key: venv-${{ runner.os }}-${{ steps.setup_python.outputs.python-version }}-${{ hashFiles('requirements.txt') }}
-        path: venv
-
-    - uses: actions/setup-java@v3
-      with:
-        distribution: 'temurin'
-        java-version: '17'
-    - name: Enable KVM group perms
+    - name: Check allure path
       run: |
-        echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
-        sudo udevadm control --reload-rules
-        sudo udevadm trigger --name-match=kvm
-    - name: Setup Android SDK
-      uses: android-actions/setup-android@v3
-    - name: AVD cache
-      uses: actions/cache@v4
-      id: avd-cache
-      with:
-        path: |
-          ~/.android/avd/*
-          ~/.android/adb*
-        key: avd-${{ matrix.apiLevel }}
-    - name: create AVD and generate snapshot for caching
-      if: steps.avd-cache.outputs.cache-hit != 'true'
-      uses: reactivecircus/android-emulator-runner@v2
-      with:
-        avd-name: ${{ env.ANDROID_AVD }}
-        force-avd-creation: false
-        api-level: ${{ matrix.apiLevel }}
-        disable-spellchecker: true
-        target: ${{ matrix.emuTag }}
-        emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
-        arch: ${{ matrix.arch }}
-        disable-animations: true
-        script: echo "Generated AVD snapshot for caching."
-    - run: |
-        cwd=$(pwd)
-        pushd "$cwd"
-        cd ~
-        appium driver install --source=local "$cwd"
-        appium driver doctor uiautomator2
-        nohup appium server \
-          --port=$APPIUM_TEST_SERVER_PORT \
-          --address=$APPIUM_TEST_SERVER_HOST \
-          --relaxed-security \
-          --log-no-colors \
-          --log-timestamp \
-          2>&1 > "$cwd/appium.log" &
-        popd
-      name: Start Appium server
-    - run: nohup adb logcat > logcat.log &
-      name: Capture logcat
-    - uses: reactivecircus/android-emulator-runner@v2
-      name: e2e_api${{ matrix.apiLevel }}
-      with:
-        script: bash -xe scripts/run-functional-tests.sh
-        avd-name: ${{ env.ANDROID_AVD }}
-        force-avd-creation: false
-        api-level: ${{ matrix.apiLevel }}
-        disable-spellchecker: true
-        disable-animations: true
-        emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
-        target: ${{ matrix.emuTag }}
-        arch: ${{ matrix.arch }}
-    - uses: actions/upload-artifact@v4
-      if: always()
-      with:
-        name: test_record
-        path: ./TestRecord-${{ matrix.androidVer }}/
+        which allure
+        npm root -g
 
-    - name: Generate allure report
-      if: always()
-      run: |
-        allure generate ./output/allure/ --clean -o ./allure-report/
-        sed -i 's|href="|href="./|g' ./allure-report/index.html
-        sed -i 's|src="|src="./|g' ./allure-report/index.html
-
-    - name: Move Test Videos To Report
-      if: always()
-      run: |
-        mkdir -p ./allure-report/Videos/
-        cp -r ./TestRecord/* ./allure-report/Videos/
-
-    - name: Deploy Allure report to gh-pages
-      if: always()
-      run: |
-        git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        git config --global user.name "github-actions[bot]"
-
-        git clone --depth=1 --branch gh-pages https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} gh-pages
-
-        rm -rf gh-pages/${{ matrix.androidVer }}
-        mkdir -p gh-pages/${{ matrix.androidVer }}
-        cp -r ./allure-report/* gh-pages/${{ matrix.androidVer }}/
-
-        cd gh-pages
-        touch .nojekyll
-        git add .
-        git commit -m "Update report for Android ${{ matrix.androidVer }}"
-        git push origin gh-pages
-
-  update-index:
-    if: ${{ always() }}
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout gh-pages branch
-        if: always()
-        uses: actions/checkout@v3
-        with:
-          ref: gh-pages
-
-      - name: Generate index.html
-        if: always()
-        run: |
-          echo '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Allure Reports</title><style>
-          body { font-family: sans-serif; padding: 2rem; background: #f9f9f9; }
-          h1 { text-align: center; }
-          ul { max-width: 600px; margin: 2rem auto; padding: 0; list-style: none; }
-          li { background: white; margin: 0.5rem 0; padding: 1rem; border-radius: 8px; }
-          a { text-decoration: none; color: #2563eb; font-weight: bold; }
-          </style></head><body><h1>Allure Reports</h1><ul>' > index.html
-          
-          for d in $(find . -mindepth 1 -maxdepth 1 -type d); do
-            name=$(basename "$d")
-            if [ -f "$d/index.html" ]; then
-              echo "<li><a href=\"$name/\">Android $name</a></li>" >> index.html
-            fi
-          done
-          
-          echo '</ul></body></html>' >> index.html
-
-      - name: Push updated index.html
-        if: always()
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: .
-
-  send-slack-message:
-    if: ${{ always() }}
-    needs: update-index
-    runs-on: ubuntu-latest
-    steps:
-      - name: Send Slack message
-        uses: 8398a7/action-slack@v3
-        with:
-          status: ${{ job.status }}
-          fields: repo,commit,author,action,eventName,ref,workflow
-          custom_payload: |
-            {
-              "text": "📢 *Allure Report Updated!*\n• 🔗 Main Report Index: https://lethidzu.github.io/test-uiautomator2-driver/"
-            }
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+#    - name: Save cached venv
+#      uses: actions/cache/save@v4
+#      with:
+#        key: venv-${{ runner.os }}-${{ steps.setup_python.outputs.python-version }}-${{ hashFiles('requirements.txt') }}
+#        path: venv
+#
+#    - uses: actions/setup-java@v3
+#      with:
+#        distribution: 'temurin'
+#        java-version: '17'
+#    - name: Enable KVM group perms
+#      run: |
+#        echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+#        sudo udevadm control --reload-rules
+#        sudo udevadm trigger --name-match=kvm
+#    - name: Setup Android SDK
+#      uses: android-actions/setup-android@v3
+#    - name: AVD cache
+#      uses: actions/cache@v4
+#      id: avd-cache
+#      with:
+#        path: |
+#          ~/.android/avd/*
+#          ~/.android/adb*
+#        key: avd-${{ matrix.apiLevel }}
+#    - name: create AVD and generate snapshot for caching
+#      if: steps.avd-cache.outputs.cache-hit != 'true'
+#      uses: reactivecircus/android-emulator-runner@v2
+#      with:
+#        avd-name: ${{ env.ANDROID_AVD }}
+#        force-avd-creation: false
+#        api-level: ${{ matrix.apiLevel }}
+#        disable-spellchecker: true
+#        target: ${{ matrix.emuTag }}
+#        emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
+#        arch: ${{ matrix.arch }}
+#        disable-animations: true
+#        script: echo "Generated AVD snapshot for caching."
+#    - run: |
+#        cwd=$(pwd)
+#        pushd "$cwd"
+#        cd ~
+#        appium driver install --source=local "$cwd"
+#        appium driver doctor uiautomator2
+#        nohup appium server \
+#          --port=$APPIUM_TEST_SERVER_PORT \
+#          --address=$APPIUM_TEST_SERVER_HOST \
+#          --relaxed-security \
+#          --log-no-colors \
+#          --log-timestamp \
+#          2>&1 > "$cwd/appium.log" &
+#        popd
+#      name: Start Appium server
+#    - run: nohup adb logcat > logcat.log &
+#      name: Capture logcat
+#    - uses: reactivecircus/android-emulator-runner@v2
+#      name: e2e_api${{ matrix.apiLevel }}
+#      with:
+#        script: bash -xe scripts/run-functional-tests.sh
+#        avd-name: ${{ env.ANDROID_AVD }}
+#        force-avd-creation: false
+#        api-level: ${{ matrix.apiLevel }}
+#        disable-spellchecker: true
+#        disable-animations: true
+#        emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
+#        target: ${{ matrix.emuTag }}
+#        arch: ${{ matrix.arch }}
+#    - uses: actions/upload-artifact@v4
+#      if: always()
+#      with:
+#        name: test_record
+#        path: ./TestRecord-${{ matrix.androidVer }}/
+#
+#    - name: Generate allure report
+#      if: always()
+#      run: |
+#        allure generate ./output/allure/ --clean -o ./allure-report/
+#        sed -i 's|href="|href="./|g' ./allure-report/index.html
+#        sed -i 's|src="|src="./|g' ./allure-report/index.html
+#
+#    - name: Move Test Videos To Report
+#      if: always()
+#      run: |
+#        mkdir -p ./allure-report/Videos/
+#        cp -r ./TestRecord/* ./allure-report/Videos/
+#
+#    - name: Deploy Allure report to gh-pages
+#      if: always()
+#      run: |
+#        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+#        git config --global user.name "github-actions[bot]"
+#
+#        git clone --depth=1 --branch gh-pages https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} gh-pages
+#
+#        rm -rf gh-pages/${{ matrix.androidVer }}
+#        mkdir -p gh-pages/${{ matrix.androidVer }}
+#        cp -r ./allure-report/* gh-pages/${{ matrix.androidVer }}/
+#
+#        cd gh-pages
+#        touch .nojekyll
+#        git add .
+#        git commit -m "Update report for Android ${{ matrix.androidVer }}"
+#        git push origin gh-pages
+#
+#  update-index:
+#    if: ${{ always() }}
+#    needs: test
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout gh-pages branch
+#        if: always()
+#        uses: actions/checkout@v3
+#        with:
+#          ref: gh-pages
+#
+#      - name: Generate index.html
+#        if: always()
+#        run: |
+#          echo '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Allure Reports</title><style>
+#          body { font-family: sans-serif; padding: 2rem; background: #f9f9f9; }
+#          h1 { text-align: center; }
+#          ul { max-width: 600px; margin: 2rem auto; padding: 0; list-style: none; }
+#          li { background: white; margin: 0.5rem 0; padding: 1rem; border-radius: 8px; }
+#          a { text-decoration: none; color: #2563eb; font-weight: bold; }
+#          </style></head><body><h1>Allure Reports</h1><ul>' > index.html
+#
+#          for d in $(find . -mindepth 1 -maxdepth 1 -type d); do
+#            name=$(basename "$d")
+#            if [ -f "$d/index.html" ]; then
+#              echo "<li><a href=\"$name/\">Android $name</a></li>" >> index.html
+#            fi
+#          done
+#
+#          echo '</ul></body></html>' >> index.html
+#
+#      - name: Push updated index.html
+#        if: always()
+#        uses: peaceiris/actions-gh-pages@v3
+#        with:
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
+#          publish_branch: gh-pages
+#          publish_dir: .
+#
+#  send-slack-message:
+#    if: ${{ always() }}
+#    needs: update-index
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Send Slack message
+#        uses: 8398a7/action-slack@v3
+#        with:
+#          status: ${{ job.status }}
+#          fields: repo,commit,author,action,eventName,ref,workflow
+#          custom_payload: |
+#            {
+#              "text": "📢 *Allure Report Updated!*\n• 🔗 Main Report Index: https://lethidzu.github.io/test-uiautomator2-driver/"
+#            }
+#        env:
+#          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
