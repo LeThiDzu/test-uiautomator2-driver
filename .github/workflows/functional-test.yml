@@ -43,6 +43,8 @@ jobs:
       APPIUM_TEST_SERVER_HOST: 127.0.0.1
       _FORCE_LOGS: 1
       TEST_PASS_THRESHOLD: 10
+      ALLURE_VERSION: 2.34.1
+      ALLURE_HOME: /usr/bin/allure
     # No hardware acceleration is available for emulators on Ubuntu:
     # https://github.com/marketplace/actions/android-emulator-runner#can-i-use-this-action-on-linux-vms
     runs-on: ubuntu-22.04
@@ -74,12 +76,18 @@ jobs:
         pip install virtualenv
         source venv/bin/activate
         python -m pip install -r requirements.txt
-        npm install -g allure-commandline --save-dev
 
-    - name: Check allure path
+    - name: Install Allure ${{ env.ALLURE_VERSION }}
       run: |
-        which allure
-        npm root -g
+        curl -L -o allure.zip https://github.com/allure-framework/allure2/releases/download/${{ env.ALLURE_VERSION }}/allure-${{ env.ALLURE_VERSION }}.zip
+        unzip allure.zip -d /opt/
+        mv /opt/allure-${{ env.ALLURE_VERSION }} /opt/allure
+        ln -s /opt/allure/bin/allure /usr/bin/allure
+        rm allure.zip
+
+    - name: Check Allure version
+      run: |
+        allure --version
 
 #    - name: Save cached venv
 #      uses: actions/cache/save@v4
