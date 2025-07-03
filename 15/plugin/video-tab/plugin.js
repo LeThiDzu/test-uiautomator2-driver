@@ -17,7 +17,7 @@
       const test_status = this.model.get('status')
       this.$('#test-name').append(`<h2>${testName}</h2>`)
       this.$('#test-status').append(`Status: ${test_status}`)
-      this.$('.video-container').append(`<video src="data/attachments/${uuid}.attach" controls></video>`);
+      this.$('.video-container').append(`<video src="Videos/${testName.replace(' ', '_')}.mp4" controls></video>`);
     }
   })
   allure.api.addTestResultTab('test-video', 'Test video Tab', TestDetailNewTabView)
