@@ -18,7 +18,7 @@ Resource    ./OS/SMSMessaging.resource
 ${global_timeout}    30s
 ${global_retry}    5
 ${test_done}    ${False}
-${record_output}    ${EXECDIR}/TestRecord/
+${record_output}    ${EXECDIR}/TestRecord-${env_vars['PLATFORM_VERSION']}/
 
 *** Keywords ***
 Open API Demos

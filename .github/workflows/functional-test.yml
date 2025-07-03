@@ -178,6 +178,8 @@ jobs:
       run: |
         mkdir -p ./allure-report/Videos/
         cp -r ./TestRecord-${{ matrix.androidVer }}/* ./allure-report/Videos/
+        cd ./allure-report/
+        ls
 
     - name: Deploy Allure report to gh-pages
       if: always()
