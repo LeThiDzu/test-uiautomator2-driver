@@ -243,19 +243,19 @@ jobs:
 #          publish_branch: gh-pages
 #          publish_dir: .
 
-  send-slack-message:
-    if: ${{ always() }}
-    needs: update-index
-    runs-on: ubuntu-latest
-    steps:
-      - name: Send Slack message
-        uses: 8398a7/action-slack@v3
-        with:
-          status: ${{ job.status }}
-          fields: repo,commit,author,action,eventName,ref,workflow
-          custom_payload: |
-            {
-              "text": "📢 *Allure Report Updated!*\n• 🔗 Main Report Index: https://lethidzu.github.io/test-uiautomator2-driver/"
-            }
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+#  send-slack-message:
+#    if: ${{ always() }}
+#    needs: update-index
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Send Slack message
+#        uses: 8398a7/action-slack@v3
+#        with:
+#          status: ${{ job.status }}
+#          fields: repo,commit,author,action,eventName,ref,workflow
+#          custom_payload: |
+#            {
+#              "text": "📢 *Allure Report Updated!*\n• 🔗 Main Report Index: https://lethidzu.github.io/test-uiautomator2-driver/"
+#            }
+#        env:
+#          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
