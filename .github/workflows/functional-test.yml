@@ -87,8 +87,10 @@ jobs:
 
     - name: Install Allure custom plugins
       run: |
-        sudo mv ${{ github.workspace }}/allure-custom-plugin/* /opt/allure/plugins
-        which allure
+        sudo mv ${{ github.workspace }}/allure-custom-plugin/plugins/* /opt/allure/plugins
+        sudo mv ${{ github.workspace }}/allure-custom-plugin/config/allure.yml /opt/allure/config/
+        export ALLURE_CONFIG=/opt/allure/config/allure.yml
+        export ALLURE_HOME=/opt/allure
         
 
 #    - name: Save cached venv
