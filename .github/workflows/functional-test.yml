@@ -177,7 +177,7 @@ jobs:
       if: always()
       run: |
         cd ${{ github.workspace }}
-        cd ../
+        cd ../../
         ls
 
     - name: Move Test Videos To Report
