@@ -51,6 +51,7 @@ Beta 5 - This test only available for android 15
 
 *** Keywords ***
 Beta Setup
+    Log To Console    ${record_output}
     Start Record Video
     Open API Demos
 
