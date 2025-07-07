@@ -173,12 +173,6 @@ jobs:
         sed -i 's|href="|href="./|g' ./allure-report/index.html
         sed -i 's|src="|src="./|g' ./allure-report/index.html
 
-    - name: Check test record in runner
-      if: always()
-      run: |
-        cd ${{ github.workspace }}
-        ls
-
     - name: Move Test Videos To Report
       if: always()
       run: |
@@ -204,7 +198,7 @@ jobs:
         touch .nojekyll
         git add .
         git commit -m "Update report for Android ${{ matrix.androidVer }}"
-        git push origin gh-pages
+        git push origin gh-pages --force
 
   update-index:
     if: ${{ always() }}
