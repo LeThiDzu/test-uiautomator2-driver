@@ -183,8 +183,9 @@ jobs:
     - name: Move Test Videos To Report
       if: always()
       run: |
+        echo ${GITHUB_WORKSPACE}
         mkdir -p ./allure-report/Videos/
-        cp -r ./TestRecord-${{ matrix.androidVer }}/* ./allure-report/Videos/
+        cp -r ./TestRecord/* ./allure-report/Videos/
         cd ./allure-report/
         ls
 
