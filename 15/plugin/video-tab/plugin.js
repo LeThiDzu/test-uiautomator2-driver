@@ -13,7 +13,7 @@
     },
     onRender: function () {
       const testName = this.model.get('name');
-      const videoName = testName.replace(" ", "_")
+      const videoName = testName.replace(/\s/g, "_")
       const uuid = this.model.get('uuid');
       const test_status = this.model.get('status')
       const pathSegments = window.location.pathname.split('/');
