@@ -16,11 +16,9 @@
       const videoName = testName.replace(/\s/g, "_")
       const uuid = this.model.get('uuid');
       const test_status = this.model.get('status')
-      const pathSegments = window.location.pathname.split('/');
-      const androidVer = pathSegments[pathSegments.length - 2];
       this.$('#test-name').append(`<h2>${testName}</h2>`)
       this.$('#test-status').append(`Status: ${test_status}`)
-      this.$('.video-container').append(`<video src="${androidVer}/Videos/${videoName}.mp4" controls></video>`);
+      this.$('.video-container').append(`<video src="/Videos/${videoName}.mp4" controls></video>`);
     }
   })
   allure.api.addTestResultTab('test-video', 'Test video Tab', TestDetailNewTabView)
