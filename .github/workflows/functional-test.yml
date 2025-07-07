@@ -164,7 +164,7 @@ jobs:
       if: always()
       with:
         name: test_record
-        path: ./TestRecord-${{ matrix.androidVer }}/
+        path: ./TestRecord/
 
     - name: Generate allure report
       if: always()
@@ -177,7 +177,6 @@ jobs:
       if: always()
       run: |
         cd ${{ github.workspace }}
-        cd ../../
         ls
 
     - name: Move Test Videos To Report
