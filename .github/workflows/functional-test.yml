@@ -198,7 +198,7 @@ jobs:
         touch .nojekyll
         git add .
         git commit -m "Update report for Android ${{ matrix.androidVer }}"
-        git push origin gh-pages --force
+        git push origin gh-pages
 
   update-index:
     if: ${{ always() }}
