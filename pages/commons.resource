@@ -101,22 +101,20 @@ Start Record Video
     Start Recording    ${video_name}.mp4
 
 Stop Record Video
-    ${env_vars}=    Load Environment Variables
     ${video_name} =    Replace String    ${TEST_NAME}    ${SPACE}    _
     Stop Recording    ${video_name}.mp4
     Log To Console    ${TEST_STATUS}
     IF    "${TEST_STATUS}" == "FAIL"
-        Pull Video    ${video_name}.mp4    ${record_output}-${env_vars['PLATFORM_VERSION']}
-        File Should Exist    ${record_output}-${env_vars['PLATFORM_VERSION']}/${video_name}.mp4
+        Pull Video    ${video_name}.mp4    ${record_output}
+        File Should Exist    ${record_output}/${video_name}.mp4
         Sleep    5s
     END
     Remove Video    ${video_name}.mp4
 
 Allure - Add Screen Record
-    ${env_vars}=    Load Environment Variables
     IF    "${TEST_STATUS}" == "FAIL"
         ${video_name} =    Replace String    ${TEST_NAME}    ${SPACE}    _
-        AllureLibrary.Attach File    ${record_output}-${env_vars['PLATFORM_VERSION']}/${video_name}.mp4    attachment_type=MP4
+        AllureLibrary.Attach File    ${record_output}/${video_name}.mp4    attachment_type=MP4
     END
 
 #    Execute Script    kill $RECORD_PID
