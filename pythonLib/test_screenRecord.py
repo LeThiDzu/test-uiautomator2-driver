@@ -37,7 +37,7 @@ def stop_recording(file_name="test_record.mp4"):
 def pull_video(file_name="test_record.mp4", output_path=os.getcwd()):
     global _other_process
     global folder
-    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    os.makedirs(output_path, exist_ok=True)
     full_output_path = os.path.join(output_path, file_name)
     pull_command = ["adb", "pull", folder + file_name, full_output_path]
     _other_process = subprocess.run(pull_command, check=True)

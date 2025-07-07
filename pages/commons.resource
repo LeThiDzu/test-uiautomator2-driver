@@ -109,7 +109,7 @@ Stop Record Video
         File Should Exist    ${record_output}/${video_name}.mp4
         Sleep    5s
     END
-    Remove Video    ${video_name}.mp4
+#    Remove Video    ${video_name}.mp4
 
 Allure - Add Screen Record
     IF    "${TEST_STATUS}" == "FAIL"
