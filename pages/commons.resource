@@ -103,7 +103,6 @@ Start Record Video
 Stop Record Video
     ${video_name} =    Replace String    ${TEST_NAME}    ${SPACE}    _
     Stop Recording    ${video_name}.mp4
-    Log To Console    ${TEST_STATUS}
     IF    "${TEST_STATUS}" == "FAIL"
         Pull Video    ${video_name}.mp4    ${record_output}
         File Should Exist    ${record_output}/${video_name}.mp4

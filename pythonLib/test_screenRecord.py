@@ -29,7 +29,8 @@ def start_recording(file_name="test_record.mp4"):
 def stop_recording(file_name="test_record.mp4"):
     global _recording_process
     if _recording_process:
-        _recording_process.terminate()
+        subprocess.run(['adb', 'shell', 'pkill', '-INT', 'screenrecord'])
+        _recording_process.wait()
         print(f"Stopped screen recording to {file_name}")
     else:
         print("No recording found")
