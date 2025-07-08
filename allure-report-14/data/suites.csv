@@ -1,0 +1,4 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","18039","Beta 4 - This test only available for android 14","","Tue Jul 08 06:34:18 UTC 2025","passed","Tue Jul 08 06:34:36 UTC 2025","","DeviceFarm","",""
+"","45201","Beta 1 - Test Enable wifi settings","","Tue Jul 08 06:33:33 UTC 2025","failed","Tue Jul 08 06:34:18 UTC 2025","","DeviceFarm","",""
+"","7508","Beta 5 - This test only available for android 15","","Tue Jul 08 06:34:36 UTC 2025","skipped","Tue Jul 08 06:34:43 UTC 2025","","DeviceFarm","",""
