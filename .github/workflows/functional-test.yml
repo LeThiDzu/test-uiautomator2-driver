@@ -255,13 +255,13 @@ jobs:
           for dir in ../downloaded-reports/*/; do
               android_ver=$(basename "$dir" | sed 's/allure-report-android-//')
               mkdir -p "${android_ver}"
-              cp -r "${dir}"/* "${android_ver}"/ # Copy nội dung báo cáo vào folder
+              cp -r "${dir}"/* "${android_ver}"/
           done
           touch .nojekyll
           git add .
           git commit -m "Update Allure reports from workflow run ${{ github.run_id }}" || echo "No changes to commit"
           git push origin gh-pages
-        working-directory: gh-pages_repo_local
+#        working-directory: gh-pages_repo_local
 
 #  send-slack-message:
 #    if: ${{ always() }}
