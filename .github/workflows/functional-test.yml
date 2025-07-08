@@ -97,7 +97,6 @@ jobs:
       with:
         ffmpeg-version: release
         architecture: 'arm64'
-        linking-type: static
         github-token: ${{ github.server_url == 'https://github.com' && github.token || '' }}
 
     - name: Save cached venv
