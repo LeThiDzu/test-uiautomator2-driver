@@ -247,16 +247,26 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git clone --depth=1 --branch gh-pages https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} gh-pages_repo_local
           cd gh-pages_repo_local
-          for dir in ../downloaded-reports/*/; do
-            android_ver=$(basename "$dir" | grep -o '[0-9]*$')
-            rm -rf "${android_ver}"
-          done
-          
+
           for dir in ../downloaded-reports/*/; do
               android_ver=$(basename "$dir" | grep -o '[0-9]*$')
-              mkdir -p "${android_ver}"
-              cp -r "${dir}"/* "${android_ver}"/
+              if [ -n "$android_ver" ]; then
+                  echo "Xoá folder: ${android_ver}"
+                  rm -rf "${android_ver}"
+              fi
           done
+
+          for dir in ../downloaded-reports/*/; do
+              android_ver=$(basename "$dir" | grep -o '[0-9]*$')
+              if [ -n "$android_ver" ]; then
+                  echo "Copy report vào folder: ${android_ver}"
+                  mkdir -p "${android_ver}"
+                  cp -r "${dir}"/* "${android_ver}/"
+              else
+                  echo "Bỏ qua thư mục không hợp lệ: $dir"
+              fi
+          done
+
           touch .nojekyll
           git add .
           git commit -m "Update Allure reports from workflow run ${{ github.run_id }}" || echo "No changes to commit"
