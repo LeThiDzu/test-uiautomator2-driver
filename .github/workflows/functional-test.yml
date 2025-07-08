@@ -178,16 +178,21 @@ jobs:
         sed -i 's|href="|href="./|g' ./allure-report/index.html
         sed -i 's|src="|src="./|g' ./allure-report/index.html
 
+    - name: Check test video error with ffmpeg 1
+      if: always()
+      run: |
+        cd ./TestRecord/
+        ffprobe -v error -select_streams v:0 -show_entries stream=codec_name -of csv=p=0 Beta_1_-_Test_Enable_wifi_settings.mp4
+
     - name: Move Test Videos To Report
       if: always()
       run: |
-        echo ${GITHUB_WORKSPACE}
         mkdir -p ./allure-report/Videos/
         cp -r ./TestRecord/* ./allure-report/Videos/
         cd ./allure-report/
         ls
 
-    - name: Check test video error with ffmpeg
+    - name: Check test video error with ffmpeg 2
       if: always()
       run: |
         cd ./allure-report/Videos/
