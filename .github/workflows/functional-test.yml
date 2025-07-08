@@ -92,12 +92,11 @@ jobs:
         export ALLURE_CONFIG=/opt/allure/config/allure.yml
         export ALLURE_HOME=/opt/allure
         
-    - uses: FedericoCarboni/setup-ffmpeg@v3
-      id: setup-ffmpeg
+    - uses: Iamshankhadeep/setup-ffmpeg@v1.2
       with:
-        ffmpeg-version: release
-        architecture: 'arm64'
-        github-token: ${{ github.server_url == 'https://github.com' && github.token || '' }}
+        token: ${{ secrets.GITHUB_TOKEN }}
+        version: "4.4"
+      id: setup-ffmpeg
 
     - name: Save cached venv
       uses: actions/cache/save@v4
