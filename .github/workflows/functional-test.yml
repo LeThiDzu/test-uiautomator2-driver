@@ -188,7 +188,7 @@ jobs:
       if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: allure-report-${{ matrix.androidVer }}
+        name: ${{ matrix.androidVer }}
         path: ./allure-report/
         retention-days: 1
 
@@ -247,13 +247,13 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git clone --depth=1 --branch gh-pages https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} gh-pages_repo_local
           cd gh-pages_repo_local
-          for dir in downloaded-reports/*/; do
-              android_ver=$(basename "$dir" | sed 's/allure-report-android-//')
-              rm -rf "${android_ver}"
+          for dir in ../downloaded-reports/*/; do
+            android_ver=$(basename "$dir" | grep -o '[0-9]*$')
+            rm -rf "${android_ver}"
           done
           
           for dir in ../downloaded-reports/*/; do
-              android_ver=$(basename "$dir" | sed 's/allure-report-android-//')
+              android_ver=$(basename "$dir" | grep -o '[0-9]*$')
               mkdir -p "${android_ver}"
               cp -r "${dir}"/* "${android_ver}"/
           done
