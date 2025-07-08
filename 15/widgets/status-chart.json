@@ -1,1 +1,1 @@
-[{"uid":"1352e5dc71df76ae","name":"Beta 1 - Test Enable wifi settings","time":{"start":1751870669857,"stop":1751870723487,"duration":53630},"status":"failed","severity":"normal"},{"uid":"b9b030e2edef9776","name":"Beta 4 - This test only available for android 14","time":{"start":1751870723496,"stop":1751870729731,"duration":6235},"status":"skipped","severity":"normal"},{"uid":"92838eb48613821f","name":"Beta 5 - This test only available for android 15","time":{"start":1751870729741,"stop":1751870745056,"duration":15315},"status":"passed","severity":"normal"}]
+[]
