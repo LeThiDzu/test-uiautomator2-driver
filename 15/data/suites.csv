@@ -1,4 +1,4 @@
 "DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
-"","56533","Beta 1 - Test Enable wifi settings","","Thu Jul 10 09:44:00 UTC 2025","failed","Thu Jul 10 09:44:56 UTC 2025","","DeviceFarm","",""
-"","15973","Beta 5 - This test only available for android 15","","Thu Jul 10 09:45:07 UTC 2025","passed","Thu Jul 10 09:45:23 UTC 2025","","DeviceFarm","",""
-"","10642","Beta 4 - This test only available for android 14","","Thu Jul 10 09:44:56 UTC 2025","skipped","Thu Jul 10 09:45:07 UTC 2025","","DeviceFarm","",""
+"","5657","Beta 5 - This test only available for android 15","","Thu Jul 10 10:05:17 UTC 2025","failed","Thu Jul 10 10:05:22 UTC 2025","","DeviceFarm","",""
+"","14109","Beta 4 - This test only available for android 14","","Thu Jul 10 10:05:03 UTC 2025","skipped","Thu Jul 10 10:05:17 UTC 2025","","DeviceFarm","",""
+"","10123","Beta 1 - Test Enable wifi settings","","Thu Jul 10 10:04:52 UTC 2025","failed","Thu Jul 10 10:05:03 UTC 2025","","DeviceFarm","",""
