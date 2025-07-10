@@ -171,6 +171,18 @@ jobs:
         name: test_record
         path: ./TestRecord/
 
+    - name: Restore history from gh-pages
+      run: |
+        git clone --depth=1 --branch gh-pages https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} gh-pages_temp
+        android_ver="${{ matrix.androidVer }}"
+        if [ -d "gh-pages_temp/${android_ver}/history" ]; then
+          echo "Found previous history for Android ${android_ver}, restoring..."
+          mkdir -p output/allure/history
+          cp -r gh-pages_temp/${android_ver}/history/* output/allure/history/
+        else
+          echo "No previous history found for Android ${android_ver}"
+        fi
+
     - name: Generate allure report
       if: always()
       run: |
