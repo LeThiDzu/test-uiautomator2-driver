@@ -171,21 +171,6 @@ jobs:
         name: test_record
         path: ./TestRecord/
 
-    - name: Restore history from gh-pages
-      run: |
-        git clone --depth=1 --branch gh-pages https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} gh-pages_temp
-        ANDROID_VER=${{ matrix.androidVer }}
-        HISTORY_SRC="gh-pages_temp/${ANDROID_VER}/history"
-        HISTORY_DEST="output/allure/history"
-
-        if [ -d "${HISTORY_SRC}" ]; then
-          echo "Restoring history from ${HISTORY_SRC} to ${HISTORY_DEST}"
-          mkdir -p ${HISTORY_DEST}
-          cp -r ${HISTORY_SRC}/* ${HISTORY_DEST}/
-        else
-          echo "No previous history found for Android ${ANDROID_VER}"
-        fi
-
     - name: Generate allure report
       if: always()
       run: |
@@ -263,22 +248,26 @@ jobs:
           git clone --depth=1 --branch gh-pages https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} gh-pages_repo_local
           cd gh-pages_repo_local
 
-          for dir in ../downloaded-reports/*/; do
-              android_ver=$(basename "$dir" | grep -o '[0-9]*$')
-              if [ -n "$android_ver" ]; then
-                  echo "Xoá folder: ${android_ver}"
-                  rm -rf "${android_ver}"
-              fi
-          done
+          for report_dir in ../downloaded-reports/*/; do
+              android_ver=$(basename "$report_dir" | grep -o '[0-9]*$') # Lấy phiên bản Android từ tên artifact
 
-          for dir in ../downloaded-reports/*/; do
-              android_ver=$(basename "$dir" | grep -o '[0-9]*$')
               if [ -n "$android_ver" ]; then
-                  echo "Copy report vào folder: ${android_ver}"
-                  mkdir -p "${android_ver}"
-                  cp -r "${dir}"/* "${android_ver}/"
+                  echo "Handle report for Android: ${android_ver}"
+                  rm -rf "${android_ver}"
+                  mkdir -p "${android_ver}" # Tạo lại thư mục cho báo cáo mới
+                  HISTORY_SRC_GH_PAGES="${android_ver}/history"
+                  HISTORY_DEST_LOCAL="${report_dir}/allure-report/history" # Đường dẫn history bên trong artifact đã tải về
+
+                  if [ -d "${HISTORY_SRC_GH_PAGES}" ]; then
+                    echo "Restore test history from ${HISTORY_SRC_GH_PAGES}"
+                    mkdir -p ${HISTORY_DEST_LOCAL}
+                    cp -r ${HISTORY_SRC_GH_PAGES}/* ${HISTORY_DEST_LOCAL}/
+                  else
+                    echo "Cannot find test history for Android ${android_ver}"
+                  fi
+                  cp -r "${report_dir}"/* "${android_ver}/"
               else
-                  echo "Bỏ qua thư mục không hợp lệ: $dir"
+                  echo "Skip invalid artifact folder: $report_dir"
               fi
           done
 
