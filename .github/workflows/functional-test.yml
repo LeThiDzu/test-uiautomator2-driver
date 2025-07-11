@@ -113,168 +113,182 @@ jobs:
         echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
         sudo udevadm control --reload-rules
         sudo udevadm trigger --name-match=kvm
-    - name: Setup Android SDK
-      uses: android-actions/setup-android@v3
-    - name: AVD cache
-      uses: actions/cache@v4
-      id: avd-cache
-      with:
-        path: |
-          ~/.android/avd/*
-          ~/.android/adb*
-        key: avd-${{ matrix.apiLevel }}
-    - name: create AVD and generate snapshot for caching
-      if: steps.avd-cache.outputs.cache-hit != 'true'
-      uses: reactivecircus/android-emulator-runner@v2
-      with:
-        avd-name: ${{ env.ANDROID_AVD }}
-        force-avd-creation: false
-        api-level: ${{ matrix.apiLevel }}
-        disable-spellchecker: true
-        target: ${{ matrix.emuTag }}
-        emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
-        arch: ${{ matrix.arch }}
-        disable-animations: true
-        script: echo "Generated AVD snapshot for caching."
-    - run: |
-        cwd=$(pwd)
-        pushd "$cwd"
-        cd ~
-        appium driver install --source=local "$cwd"
-        appium driver doctor uiautomator2
-        nohup appium server \
-          --port=$APPIUM_TEST_SERVER_PORT \
-          --address=$APPIUM_TEST_SERVER_HOST \
-          --relaxed-security \
-          --log-no-colors \
-          --log-timestamp \
-          2>&1 > "$cwd/appium.log" &
-        popd
-      name: Start Appium server
-    - run: nohup adb logcat > logcat.log &
-      name: Capture logcat
-    - uses: reactivecircus/android-emulator-runner@v2
-      name: e2e_api${{ matrix.apiLevel }}
-      with:
-        script: bash -xe scripts/run-functional-tests.sh
-        avd-name: ${{ env.ANDROID_AVD }}
-        force-avd-creation: false
-        api-level: ${{ matrix.apiLevel }}
-        disable-spellchecker: true
-        disable-animations: true
-        emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
-        target: ${{ matrix.emuTag }}
-        arch: ${{ matrix.arch }}
-    - uses: actions/upload-artifact@v4
-      if: always()
-      with:
-        name: test_record
-        path: ./TestRecord/
+#    - name: Setup Android SDK
+#      uses: android-actions/setup-android@v3
+#    - name: AVD cache
+#      uses: actions/cache@v4
+#      id: avd-cache
+#      with:
+#        path: |
+#          ~/.android/avd/*
+#          ~/.android/adb*
+#        key: avd-${{ matrix.apiLevel }}
+#    - name: create AVD and generate snapshot for caching
+#      if: steps.avd-cache.outputs.cache-hit != 'true'
+#      uses: reactivecircus/android-emulator-runner@v2
+#      with:
+#        avd-name: ${{ env.ANDROID_AVD }}
+#        force-avd-creation: false
+#        api-level: ${{ matrix.apiLevel }}
+#        disable-spellchecker: true
+#        target: ${{ matrix.emuTag }}
+#        emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
+#        arch: ${{ matrix.arch }}
+#        disable-animations: true
+#        script: echo "Generated AVD snapshot for caching."
+#    - run: |
+#        cwd=$(pwd)
+#        pushd "$cwd"
+#        cd ~
+#        appium driver install --source=local "$cwd"
+#        appium driver doctor uiautomator2
+#        nohup appium server \
+#          --port=$APPIUM_TEST_SERVER_PORT \
+#          --address=$APPIUM_TEST_SERVER_HOST \
+#          --relaxed-security \
+#          --log-no-colors \
+#          --log-timestamp \
+#          2>&1 > "$cwd/appium.log" &
+#        popd
+#      name: Start Appium server
+#    - run: nohup adb logcat > logcat.log &
+#      name: Capture logcat
 
-    - name: Generate allure report
-      if: always()
+    - name: Test add history
       run: |
-        allure generate ./output/allure/ --clean -o ./allure-report/
-        sed -i 's|href="|href="./|g' ./allure-report/index.html
-        sed -i 's|src="|src="./|g' ./allure-report/index.html
+        mkdir test_history
+        cd test_history
+        
+        git remote add origin https://github.com/LeThiDzu/test-uiautomator2-driver.git
+        
+        git config core.sparseCheckout true
+        echo "${{ matrix.androidVer }}/history" >> ./git/info/sparse-checkout
+        git pull origin gh-pages
+        
+        ls
 
-    - name: Move Test Videos To Report
-      if: always()
-      run: |
-        mkdir -p ./allure-report/Videos/
-        cp -r ./TestRecord/* ./allure-report/Videos/
+#    - uses: reactivecircus/android-emulator-runner@v2
+#      name: e2e_api${{ matrix.apiLevel }}
+#      with:
+#        script: bash -xe scripts/run-functional-tests.sh
+#        avd-name: ${{ env.ANDROID_AVD }}
+#        force-avd-creation: false
+#        api-level: ${{ matrix.apiLevel }}
+#        disable-spellchecker: true
+#        disable-animations: true
+#        emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
+#        target: ${{ matrix.emuTag }}
+#        arch: ${{ matrix.arch }}
+#    - uses: actions/upload-artifact@v4
+#      if: always()
+#      with:
+#        name: test_record
+#        path: ./TestRecord/
 
-    - name: Upload Report Artifact
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: ${{ matrix.androidVer }}
-        path: ./allure-report/
-        retention-days: 1
+#    - name: Generate allure report
+#      if: always()
+#      run: |
+#        allure generate ./output/allure/ --clean -o ./allure-report/
+#        sed -i 's|href="|href="./|g' ./allure-report/index.html
+#        sed -i 's|src="|src="./|g' ./allure-report/index.html
 
-  update-index:
-    if: ${{ always() }}
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout gh-pages branch
-        if: always()
-        uses: actions/checkout@v3
-        with:
-          ref: gh-pages
+#    - name: Move Test Videos To Report
+#      if: always()
+#      run: |
+#        mkdir -p ./allure-report/Videos/
+#        cp -r ./TestRecord/* ./allure-report/Videos/
 
-      - name: Generate index.html
-        if: always()
-        run: |
-          echo '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Allure Reports</title><style>
-          body { font-family: sans-serif; padding: 2rem; background: #f9f9f9; }
-          h1 { text-align: center; }
-          ul { max-width: 600px; margin: 2rem auto; padding: 0; list-style: none; }
-          li { background: white; margin: 0.5rem 0; padding: 1rem; border-radius: 8px; }
-          a { text-decoration: none; color: #2563eb; font-weight: bold; }
-          </style></head><body><h1>Allure Reports</h1><ul>' > index.html
+#    - name: Upload Report Artifact
+#      if: always()
+#      uses: actions/upload-artifact@v4
+#      with:
+#        name: ${{ matrix.androidVer }}
+#        path: ./allure-report/
+#        retention-days: 1
 
-          for d in $(find . -mindepth 1 -maxdepth 1 -type d); do
-            name=$(basename "$d")
-            if [ -f "$d/index.html" ]; then
-              echo "<li><a href=\"$name/\">Android $name</a></li>" >> index.html
-            fi
-          done
+#  update-index:
+#    if: ${{ always() }}
+#    needs: test
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout gh-pages branch
+#        if: always()
+#        uses: actions/checkout@v3
+#        with:
+#          ref: gh-pages
 
-          echo '</ul></body></html>' >> index.html
+#      - name: Generate index.html
+#        if: always()
+#        run: |
+#          echo '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Allure Reports</title><style>
+#          body { font-family: sans-serif; padding: 2rem; background: #f9f9f9; }
+#          h1 { text-align: center; }
+#          ul { max-width: 600px; margin: 2rem auto; padding: 0; list-style: none; }
+#          li { background: white; margin: 0.5rem 0; padding: 1rem; border-radius: 8px; }
+#          a { text-decoration: none; color: #2563eb; font-weight: bold; }
+#          </style></head><body><h1>Allure Reports</h1><ul>' > index.html
+#
+#          for d in $(find . -mindepth 1 -maxdepth 1 -type d); do
+#            name=$(basename "$d")
+#            if [ -f "$d/index.html" ]; then
+#              echo "<li><a href=\"$name/\">Android $name</a></li>" >> index.html
+#            fi
+#          done
+#
+#          echo '</ul></body></html>' >> index.html
 
-      - name: Push updated index.html
-        if: always()
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: .
+#      - name: Push updated index.html
+#        if: always()
+#        uses: peaceiris/actions-gh-pages@v3
+#        with:
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
+#          publish_branch: gh-pages
+#          publish_dir: .
 
-  deploy-to-ghpages:
-    if: ${{ always() }}
-    needs: [test, update-index]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Download all Allure Report Artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: downloaded-reports
-      - name: Deploy to GitHub Pages
-        run: |
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
-          git clone --depth=1 --branch gh-pages https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} gh-pages_repo_local
-          cd gh-pages_repo_local
-
-          for report_dir in ../downloaded-reports/*/; do
-              android_ver=$(basename "$report_dir" | grep -o '[0-9]*$') # Lấy phiên bản Android từ tên artifact
-
-              if [ -n "$android_ver" ]; then
-                  echo "Handle report for Android: ${android_ver}"
-                  rm -rf "${android_ver}"
-                  mkdir -p "${android_ver}" # Tạo lại thư mục cho báo cáo mới
-                  HISTORY_SRC_GH_PAGES="${android_ver}/history"
-                  HISTORY_DEST_LOCAL="${report_dir}/allure-report/history" # Đường dẫn history bên trong artifact đã tải về
-
-                  if [ -d "${HISTORY_SRC_GH_PAGES}" ]; then
-                    echo "Restore test history from ${HISTORY_SRC_GH_PAGES}"
-                    mkdir -p ${HISTORY_DEST_LOCAL}
-                    cp -r ${HISTORY_SRC_GH_PAGES}/* ${HISTORY_DEST_LOCAL}/
-                  else
-                    echo "Cannot find test history for Android ${android_ver}"
-                  fi
-                  cp -r "${report_dir}"/* "${android_ver}/"
-              else
-                  echo "Skip invalid artifact folder: $report_dir"
-              fi
-          done
-
-          touch .nojekyll
-          git add .
-          git commit -m "Update Allure reports from workflow run ${{ github.run_id }}" || echo "No changes to commit"
-          git push origin gh-pages
+#  deploy-to-ghpages:
+#    if: ${{ always() }}
+#    needs: [test, update-index]
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v3
+#      - name: Download all Allure Report Artifacts
+#        uses: actions/download-artifact@v4
+#        with:
+#          path: downloaded-reports
+#      - name: Deploy to GitHub Pages
+#        run: |
+#          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+#          git config --global user.name "github-actions[bot]"
+#          git clone --depth=1 --branch gh-pages https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} gh-pages_repo_local
+#          cd gh-pages_repo_local
+#
+#          for report_dir in ../downloaded-reports/*/; do
+#              android_ver=$(basename "$report_dir" | grep -o '[0-9]*$') # Lấy phiên bản Android từ tên artifact
+#
+#              if [ -n "$android_ver" ]; then
+#                  echo "Handle report for Android: ${android_ver}"
+#                  rm -rf "${android_ver}"
+#                  mkdir -p "${android_ver}" # Tạo lại thư mục cho báo cáo mới
+#                  HISTORY_SRC_GH_PAGES="${android_ver}/history"
+#                  HISTORY_DEST_LOCAL="${report_dir}/allure-report/history"
+#
+#                  if [ -d "${HISTORY_SRC_GH_PAGES}" ]; then
+#                    echo "Restore test history from ${HISTORY_SRC_GH_PAGES}"
+#                    mkdir -p ${HISTORY_DEST_LOCAL}
+#                    cp -r ${HISTORY_SRC_GH_PAGES}/* ${HISTORY_DEST_LOCAL}/
+#                  else
+#                    echo "Cannot find test history for Android ${android_ver}"
+#                  fi
+#                  cp -r "${report_dir}"/* "${android_ver}/"
+#              else
+#                  echo "Skip invalid artifact folder: $report_dir"
+#              fi
+#          done
+#
+#          touch .nojekyll
+#          git add .
+#          git commit -m "Update Allure reports from workflow run ${{ github.run_id }}" || echo "No changes to commit"
+#          git push origin gh-pages
 #        working-directory: gh-pages_repo_local
 
 #  send-slack-message:
