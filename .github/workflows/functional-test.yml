@@ -158,9 +158,7 @@ jobs:
       run: |
         mkdir test_history
         cd test_history
-        
-        git remote add origin https://github.com/LeThiDzu/test-uiautomator2-driver.git
-        
+
         git config core.sparseCheckout true
         echo "${{ matrix.androidVer }}/history" >> ./git/info/sparse-checkout
         git pull origin gh-pages
