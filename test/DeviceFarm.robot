@@ -16,7 +16,7 @@ Beta 1 - Test Enable wifi settings
     Select Checkbox    Checkbox wifi    ${checkBox_wifi}
     Element Should Reach The State enabled     Wifi settings    ${wifi_settings}
     Sleep    15s
-#    Fail    I want this test fail
+    Fail    I want this test fail
 
 #Beta 2 - Test send message
 #    [Tags]    Mobile    A-14    A-15
