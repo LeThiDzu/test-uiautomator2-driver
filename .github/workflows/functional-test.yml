@@ -159,7 +159,7 @@ jobs:
       with:
         repository: ${{ github.repository }}
         ref: gh-pages
-        token: ${{ github.GITHUB_TOKEN }}
+        token: ${{ secrets.GITHUB_TOKEN }}
         path: test-history
         sparse-checkout: ${{ env.PLATFORM_VERSION }}/history
 
