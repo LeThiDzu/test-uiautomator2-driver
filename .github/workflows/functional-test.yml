@@ -70,49 +70,49 @@ jobs:
         key: venv-${{ runner.os }}-${{ steps.setup_python.outputs.python-version }}-${{ hashFiles('requirements.txt') }}
         path: venv
 
-    - name: Install Python packages
-      run: |
-        python -m venv venv
-        pip install virtualenv
-        source venv/bin/activate
-        python -m pip install -r requirements.txt
+#    - name: Install Python packages
+#      run: |
+#        python -m venv venv
+#        pip install virtualenv
+#        source venv/bin/activate
+#        python -m pip install -r requirements.txt
+#
+#    - name: Install Allure ${{ env.ALLURE_VERSION }}
+#      run: |
+#        curl -L -o allure.zip https://github.com/allure-framework/allure2/releases/download/${{ env.ALLURE_VERSION }}/allure-${{ env.ALLURE_VERSION }}.zip
+#        unzip allure.zip -d /opt/
+#        sudo mv /opt/allure-${{ env.ALLURE_VERSION }} /opt/allure
+#        sudo ln -s /opt/allure/bin/allure /usr/bin/allure
+#        rm allure.zip
+#
+#    - name: Install Allure custom plugins
+#      run: |
+#        sudo mv ${{ github.workspace }}/allure-custom-plugin/plugins/* /opt/allure/plugins
+#        sudo mv ${{ github.workspace }}/allure-custom-plugin/config/allure.yml /opt/allure/config/
+#        export ALLURE_CONFIG=/opt/allure/config/allure.yml
+#        export ALLURE_HOME=/opt/allure
+#
+#    - uses: Iamshankhadeep/setup-ffmpeg@v1.2
+#      with:
+#        token: ${{ secrets.GITHUB_TOKEN }}
+#        version: "4.4"
+#      id: setup-ffmpeg
+#
+#    - name: Save cached venv
+#      uses: actions/cache/save@v4
+#      with:
+#        key: venv-${{ runner.os }}-${{ steps.setup_python.outputs.python-version }}-${{ hashFiles('requirements.txt') }}
+#        path: venv
 
-    - name: Install Allure ${{ env.ALLURE_VERSION }}
-      run: |
-        curl -L -o allure.zip https://github.com/allure-framework/allure2/releases/download/${{ env.ALLURE_VERSION }}/allure-${{ env.ALLURE_VERSION }}.zip
-        unzip allure.zip -d /opt/
-        sudo mv /opt/allure-${{ env.ALLURE_VERSION }} /opt/allure
-        sudo ln -s /opt/allure/bin/allure /usr/bin/allure
-        rm allure.zip
-
-    - name: Install Allure custom plugins
-      run: |
-        sudo mv ${{ github.workspace }}/allure-custom-plugin/plugins/* /opt/allure/plugins
-        sudo mv ${{ github.workspace }}/allure-custom-plugin/config/allure.yml /opt/allure/config/
-        export ALLURE_CONFIG=/opt/allure/config/allure.yml
-        export ALLURE_HOME=/opt/allure
-        
-    - uses: Iamshankhadeep/setup-ffmpeg@v1.2
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        version: "4.4"
-      id: setup-ffmpeg
-
-    - name: Save cached venv
-      uses: actions/cache/save@v4
-      with:
-        key: venv-${{ runner.os }}-${{ steps.setup_python.outputs.python-version }}-${{ hashFiles('requirements.txt') }}
-        path: venv
-
-    - uses: actions/setup-java@v3
-      with:
-        distribution: 'temurin'
-        java-version: '17'
-    - name: Enable KVM group perms
-      run: |
-        echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
-        sudo udevadm control --reload-rules
-        sudo udevadm trigger --name-match=kvm
+#    - uses: actions/setup-java@v3
+#      with:
+#        distribution: 'temurin'
+#        java-version: '17'
+#    - name: Enable KVM group perms
+#      run: |
+#        echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+#        sudo udevadm control --reload-rules
+#        sudo udevadm trigger --name-match=kvm
 #    - name: Setup Android SDK
 #      uses: android-actions/setup-android@v3
 #    - name: AVD cache
@@ -159,7 +159,7 @@ jobs:
       with:
         repository: ${{ github.repository }}
         ref: gh-pages
-        token: ${{ github.GUTHUB_TOKEN }}
+        token: ${{ github.GITHUB_TOKEN }}
         path: test-history
         sparse-checkout: ${{ env.PLATFORM_VERSION }}/history
 
