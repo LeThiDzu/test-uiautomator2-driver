@@ -169,10 +169,11 @@ jobs:
     - uses: actions/upload-artifact@v4
       if: always()
       with:
-        name: test_record
+        name: test_record_${{ env.PLATFORM_VERSION }}
         path: ./TestRecord/
 
     - name: Pull test history
+      if: always()
       uses: actions/checkout@v3
       with:
         repository: ${{ github.repository }}
@@ -182,6 +183,7 @@ jobs:
         sparse-checkout: ${{ env.PLATFORM_VERSION }}/history
 
     - name: Add history to current report
+      if: always()
       run: |
         cd test-history/${{ env.PLATFORM_VERSION }}
         cp ./history output/allure
