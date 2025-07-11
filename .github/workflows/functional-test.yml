@@ -70,91 +70,109 @@ jobs:
         key: venv-${{ runner.os }}-${{ steps.setup_python.outputs.python-version }}-${{ hashFiles('requirements.txt') }}
         path: venv
 
-#    - name: Install Python packages
-#      run: |
-#        python -m venv venv
-#        pip install virtualenv
-#        source venv/bin/activate
-#        python -m pip install -r requirements.txt
-#
-#    - name: Install Allure ${{ env.ALLURE_VERSION }}
-#      run: |
-#        curl -L -o allure.zip https://github.com/allure-framework/allure2/releases/download/${{ env.ALLURE_VERSION }}/allure-${{ env.ALLURE_VERSION }}.zip
-#        unzip allure.zip -d /opt/
-#        sudo mv /opt/allure-${{ env.ALLURE_VERSION }} /opt/allure
-#        sudo ln -s /opt/allure/bin/allure /usr/bin/allure
-#        rm allure.zip
-#
-#    - name: Install Allure custom plugins
-#      run: |
-#        sudo mv ${{ github.workspace }}/allure-custom-plugin/plugins/* /opt/allure/plugins
-#        sudo mv ${{ github.workspace }}/allure-custom-plugin/config/allure.yml /opt/allure/config/
-#        export ALLURE_CONFIG=/opt/allure/config/allure.yml
-#        export ALLURE_HOME=/opt/allure
-#
-#    - uses: Iamshankhadeep/setup-ffmpeg@v1.2
-#      with:
-#        token: ${{ secrets.GITHUB_TOKEN }}
-#        version: "4.4"
-#      id: setup-ffmpeg
-#
-#    - name: Save cached venv
-#      uses: actions/cache/save@v4
-#      with:
-#        key: venv-${{ runner.os }}-${{ steps.setup_python.outputs.python-version }}-${{ hashFiles('requirements.txt') }}
-#        path: venv
+    - name: Install Python packages
+      run: |
+        python -m venv venv
+        pip install virtualenv
+        source venv/bin/activate
+        python -m pip install -r requirements.txt
 
-#    - uses: actions/setup-java@v3
-#      with:
-#        distribution: 'temurin'
-#        java-version: '17'
-#    - name: Enable KVM group perms
-#      run: |
-#        echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
-#        sudo udevadm control --reload-rules
-#        sudo udevadm trigger --name-match=kvm
-#    - name: Setup Android SDK
-#      uses: android-actions/setup-android@v3
-#    - name: AVD cache
-#      uses: actions/cache@v4
-#      id: avd-cache
-#      with:
-#        path: |
-#          ~/.android/avd/*
-#          ~/.android/adb*
-#        key: avd-${{ matrix.apiLevel }}
-#    - name: create AVD and generate snapshot for caching
-#      if: steps.avd-cache.outputs.cache-hit != 'true'
-#      uses: reactivecircus/android-emulator-runner@v2
-#      with:
-#        avd-name: ${{ env.ANDROID_AVD }}
-#        force-avd-creation: false
-#        api-level: ${{ matrix.apiLevel }}
-#        disable-spellchecker: true
-#        target: ${{ matrix.emuTag }}
-#        emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
-#        arch: ${{ matrix.arch }}
-#        disable-animations: true
-#        script: echo "Generated AVD snapshot for caching."
-#    - run: |
-#        cwd=$(pwd)
-#        pushd "$cwd"
-#        cd ~
-#        appium driver install --source=local "$cwd"
-#        appium driver doctor uiautomator2
-#        nohup appium server \
-#          --port=$APPIUM_TEST_SERVER_PORT \
-#          --address=$APPIUM_TEST_SERVER_HOST \
-#          --relaxed-security \
-#          --log-no-colors \
-#          --log-timestamp \
-#          2>&1 > "$cwd/appium.log" &
-#        popd
-#      name: Start Appium server
-#    - run: nohup adb logcat > logcat.log &
-#      name: Capture logcat
+    - name: Install Allure ${{ env.ALLURE_VERSION }}
+      run: |
+        curl -L -o allure.zip https://github.com/allure-framework/allure2/releases/download/${{ env.ALLURE_VERSION }}/allure-${{ env.ALLURE_VERSION }}.zip
+        unzip allure.zip -d /opt/
+        sudo mv /opt/allure-${{ env.ALLURE_VERSION }} /opt/allure
+        sudo ln -s /opt/allure/bin/allure /usr/bin/allure
+        rm allure.zip
 
-    - name: Test add history
+    - name: Install Allure custom plugins
+      run: |
+        sudo mv ${{ github.workspace }}/allure-custom-plugin/plugins/* /opt/allure/plugins
+        sudo mv ${{ github.workspace }}/allure-custom-plugin/config/allure.yml /opt/allure/config/
+        export ALLURE_CONFIG=/opt/allure/config/allure.yml
+        export ALLURE_HOME=/opt/allure
+
+    - uses: Iamshankhadeep/setup-ffmpeg@v1.2
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        version: "4.4"
+      id: setup-ffmpeg
+
+    - name: Save cached venv
+      uses: actions/cache/save@v4
+      with:
+        key: venv-${{ runner.os }}-${{ steps.setup_python.outputs.python-version }}-${{ hashFiles('requirements.txt') }}
+        path: venv
+
+    - uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+    - name: Enable KVM group perms
+      run: |
+        echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+        sudo udevadm control --reload-rules
+        sudo udevadm trigger --name-match=kvm
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+    - name: AVD cache
+      uses: actions/cache@v4
+      id: avd-cache
+      with:
+        path: |
+          ~/.android/avd/*
+          ~/.android/adb*
+        key: avd-${{ matrix.apiLevel }}
+    - name: create AVD and generate snapshot for caching
+      if: steps.avd-cache.outputs.cache-hit != 'true'
+      uses: reactivecircus/android-emulator-runner@v2
+      with:
+        avd-name: ${{ env.ANDROID_AVD }}
+        force-avd-creation: false
+        api-level: ${{ matrix.apiLevel }}
+        disable-spellchecker: true
+        target: ${{ matrix.emuTag }}
+        emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
+        arch: ${{ matrix.arch }}
+        disable-animations: true
+        script: echo "Generated AVD snapshot for caching."
+    - run: |
+        cwd=$(pwd)
+        pushd "$cwd"
+        cd ~
+        appium driver install --source=local "$cwd"
+        appium driver doctor uiautomator2
+        nohup appium server \
+          --port=$APPIUM_TEST_SERVER_PORT \
+          --address=$APPIUM_TEST_SERVER_HOST \
+          --relaxed-security \
+          --log-no-colors \
+          --log-timestamp \
+          2>&1 > "$cwd/appium.log" &
+        popd
+      name: Start Appium server
+    - run: nohup adb logcat > logcat.log &
+      name: Capture logcat
+
+    - uses: reactivecircus/android-emulator-runner@v2
+      name: e2e_api${{ matrix.apiLevel }}
+      with:
+        script: bash -xe scripts/run-functional-tests.sh
+        avd-name: ${{ env.ANDROID_AVD }}
+        force-avd-creation: false
+        api-level: ${{ matrix.apiLevel }}
+        disable-spellchecker: true
+        disable-animations: true
+        emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
+        target: ${{ matrix.emuTag }}
+        arch: ${{ matrix.arch }}
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: test_record
+        path: ./TestRecord/
+
+    - name: Pull test history
       uses: actions/checkout@v3
       with:
         repository: ${{ github.repository }}
@@ -163,29 +181,12 @@ jobs:
         path: test-history
         sparse-checkout: ${{ env.PLATFORM_VERSION }}/history
 
-    - name: Check after pull history
+    - name: Add history to current report
       run: |
-        cd test-history
+        cd test-history/${{ env.PLATFORM_VERSION }}
+        cp ./history output/allure
+        cd output/allure
         ls
-
-
-#    - uses: reactivecircus/android-emulator-runner@v2
-#      name: e2e_api${{ matrix.apiLevel }}
-#      with:
-#        script: bash -xe scripts/run-functional-tests.sh
-#        avd-name: ${{ env.ANDROID_AVD }}
-#        force-avd-creation: false
-#        api-level: ${{ matrix.apiLevel }}
-#        disable-spellchecker: true
-#        disable-animations: true
-#        emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
-#        target: ${{ matrix.emuTag }}
-#        arch: ${{ matrix.arch }}
-#    - uses: actions/upload-artifact@v4
-#      if: always()
-#      with:
-#        name: test_record
-#        path: ./TestRecord/
 
 #    - name: Generate allure report
 #      if: always()
@@ -193,13 +194,13 @@ jobs:
 #        allure generate ./output/allure/ --clean -o ./allure-report/
 #        sed -i 's|href="|href="./|g' ./allure-report/index.html
 #        sed -i 's|src="|src="./|g' ./allure-report/index.html
-
+#
 #    - name: Move Test Videos To Report
 #      if: always()
 #      run: |
 #        mkdir -p ./allure-report/Videos/
 #        cp -r ./TestRecord/* ./allure-report/Videos/
-
+#
 #    - name: Upload Report Artifact
 #      if: always()
 #      uses: actions/upload-artifact@v4
@@ -207,7 +208,7 @@ jobs:
 #        name: ${{ matrix.androidVer }}
 #        path: ./allure-report/
 #        retention-days: 1
-
+#
 #  update-index:
 #    if: ${{ always() }}
 #    needs: test
@@ -218,7 +219,7 @@ jobs:
 #        uses: actions/checkout@v3
 #        with:
 #          ref: gh-pages
-
+#
 #      - name: Generate index.html
 #        if: always()
 #        run: |
@@ -238,7 +239,7 @@ jobs:
 #          done
 #
 #          echo '</ul></body></html>' >> index.html
-
+#
 #      - name: Push updated index.html
 #        if: always()
 #        uses: peaceiris/actions-gh-pages@v3
@@ -246,7 +247,7 @@ jobs:
 #          github_token: ${{ secrets.GITHUB_TOKEN }}
 #          publish_branch: gh-pages
 #          publish_dir: .
-
+#
 #  deploy-to-ghpages:
 #    if: ${{ always() }}
 #    needs: [test, update-index]
@@ -291,8 +292,8 @@ jobs:
 #          git add .
 #          git commit -m "Update Allure reports from workflow run ${{ github.run_id }}" || echo "No changes to commit"
 #          git push origin gh-pages
-#        working-directory: gh-pages_repo_local
-
+##        working-directory: gh-pages_repo_local
+#
 #  send-slack-message:
 #    if: ${{ always() }}
 #    needs: update-index
