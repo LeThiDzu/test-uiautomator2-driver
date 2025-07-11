@@ -185,9 +185,8 @@ jobs:
     - name: Add history to current report
       if: always()
       run: |
-        cp test-history/${{ env.PLATFORM_VERSION }}/history output/allure
-        cd output/allure
-        ls
+        cp -r test-history/history output/allure/
+        ls -l output/allure/history/
 
     - name: Generate allure report
       if: always()
