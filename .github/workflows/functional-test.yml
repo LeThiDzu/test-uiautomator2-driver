@@ -155,15 +155,19 @@ jobs:
 #      name: Capture logcat
 
     - name: Test add history
-      run: |
-        mkdir test_history
-        cd test_history
+      uses: actions/checkout@v3
+      with:
+        repository: ${{ github.repository }}
+        ref: gh-pages
+        token: ${{ github.GUTHUB_TOKEN }}
+        path: test-history
+        sparse-checkout: ${{ env.PLATFORM_VERSION }}/history
 
-        git config core.sparseCheckout true
-        echo "${{ matrix.androidVer }}/history" >> ./git/info/sparse-checkout
-        git pull origin gh-pages
-        
+    - name: Check after pull history
+      run: |
+        cd test-history
         ls
+
 
 #    - uses: reactivecircus/android-emulator-runner@v2
 #      name: e2e_api${{ matrix.apiLevel }}
