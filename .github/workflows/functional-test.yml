@@ -180,7 +180,7 @@ jobs:
         ref: gh-pages
         token: ${{ secrets.GITHUB_TOKEN }}
         path: test-history
-        sparse-checkout: ${{ env.PLATFORM_VERSION }}/history
+        sparse-checkout: ${{ env.PLATFORM_VERSION }}/history/
 
     - name: Add history to current report
       if: always()
@@ -188,6 +188,18 @@ jobs:
         ls ./output/allure
         echo "========================================================="
         ls ./test-history/${{  env.PLATFORM_VERSION }}
+        
+        mkdir -p output/allure/history
+        
+        if [ -d "test-history/history" ]; then
+          cp -r test-history/history/* output/allure/history/
+        else
+          echo "No history found"
+        fi
+        
+        echo "========================================================="
+        ls -l output/allure/
+        ls -l output/allure/history
 #        cp -r test-history/history output/allure/
 #        ls -l output/allure/history/
 
