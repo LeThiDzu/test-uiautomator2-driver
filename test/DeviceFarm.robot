@@ -16,7 +16,7 @@ Beta 1 - Test Enable wifi settings
     Select Checkbox    Checkbox wifi    ${checkBox_wifi}
     Element Should Reach The State enabled     Wifi settings    ${wifi_settings}
     Sleep    15s
-    Fail    I want this test fail
+#    Fail    I want this test fail
 
 #Beta 2 - Test send message
 #    [Tags]    Mobile    A-14    A-15
@@ -39,7 +39,7 @@ Beta 4 - This test only available for android 14
     Skip If    ${env_vars['PLATFORM_VERSION']} != 14
     Log To Console    This test only available for android 14
     Sleep    10s
-    Fail    I want this test fail
+#    Fail    I want this test fail
 
 Beta 5 - This test only available for android 15
     [Tags]    Mobile    A-15
@@ -49,7 +49,7 @@ Beta 5 - This test only available for android 15
     Skip If    ${env_vars['PLATFORM_VERSION']} != 15
     Log To Console    This test only available for android 15
     Sleep    10s
-    Fail    I want this test fail
+#    Fail    I want this test fail
 
 *** Keywords ***
 Beta Setup
