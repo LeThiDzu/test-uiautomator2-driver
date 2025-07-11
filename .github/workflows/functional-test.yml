@@ -191,14 +191,13 @@ jobs:
 
         mkdir -p output/allure/history
 
-        if [ -d "test-history/history" ]; then
-          cp -r test-history/history/* output/allure/history/
+        if [ -d "test-history/${{  env.PLATFORM_VERSION }}/history" ]; then
+          cp -r test-history/${{  env.PLATFORM_VERSION }}/history/* output/allure/history/
         else
           echo "No history found"
         fi
 
         echo "========================================================="
-        ls -l output/allure/
         ls -l output/allure/history
 
     - name: Generate allure report
