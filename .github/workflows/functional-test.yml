@@ -185,10 +185,6 @@ jobs:
     - name: Add history to current report
       if: always()
       run: |
-        ls ./output/allure
-        echo "========================================================="
-        ls ./test-history/${{  env.PLATFORM_VERSION }}
-
         mkdir -p output/allure/history
 
         if [ -d "test-history/${{  env.PLATFORM_VERSION }}/history" ]; then
@@ -196,9 +192,6 @@ jobs:
         else
           echo "No history found"
         fi
-
-        echo "========================================================="
-        ls -l output/allure/history
 
     - name: Generate allure report
       if: always()
@@ -208,7 +201,7 @@ jobs:
         sed -i 's|src="|src="./|g' ./allure-report/index.html
 
     - name: Move Test Videos To Report
-      if: always()
+      if: ${{ failure() }}
       run: |
         mkdir -p ./allure-report/Videos/
         cp -r ./TestRecord/* ./allure-report/Videos/
