@@ -90,7 +90,7 @@
     "@types/ws": "^8.5.4",
     "@xmldom/xmldom": "^0.x",
     "android-apidemos": "^4.1.1",
-    "appium": "^2.0.0-rc.3",
+    "appium": "^3.0.0",
     "chai": "^5.1.1",
     "chai-as-promised": "^8.0.0",
     "conventional-changelog-conventionalcommits": "^8.0.0",
