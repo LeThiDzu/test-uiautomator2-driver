@@ -89,7 +89,7 @@
     "@types/teen_process": "^2.0.0",
     "@types/ws": "^8.5.4",
     "@xmldom/xmldom": "^0.x",
-    "android-apidemos": "^4.1.1",
+    "android-apidemos": "^5.0.0",
     "appium": "^2.0.0-rc.3",
     "chai": "^5.1.1",
     "chai-as-promised": "^8.0.0",
